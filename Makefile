@@ -12,3 +12,6 @@ build-server:
 
 run-server: build-server
 	PORT=:8080 ./geoip-server
+
+build-docker-image:
+	docker build -t geoip-server .
