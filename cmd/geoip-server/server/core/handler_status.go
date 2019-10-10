@@ -5,10 +5,9 @@ import (
 	"runtime"
 
 	"github.com/labstack/echo"
-
 )
 
-func (engine *Core) handlerStatus(c echo.Context) error {
+func (module *Core) handlerStatus(c echo.Context) error {
 
 	type response struct {
 		Hostname string `json:"hostname"`

@@ -8,10 +8,10 @@ download-testdata:
 	rm -rf tmp/
 
 build-server:
-	go build -ldflags "-s -w" -o geoip-server github.com/pieterclaerhout/go-geoip/cmd/geoip-server
+	@go build -ldflags "-s -w" -o geoip-server github.com/pieterclaerhout/go-geoip/cmd/geoip-server
 
 run-server: build-server
-	PORT=:8080 ./geoip-server
+	@PORT=:8080 GEOIP_DB=testdata/GeoLite2-Country.mmdb ./geoip-server
 
 build-docker-image:
 	docker build -t geoip-server .

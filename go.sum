@@ -17,6 +17,8 @@ github.com/oleiade/reflections v1.0.0 h1:0ir4pc6v8/PJ0yw5AEtMddfXpWBXg9cnG7SgSoJ
 github.com/oleiade/reflections v1.0.0/go.mod h1:RbATFBbKYkVdqmSFtx13Bb/tVhR0lgOBXunWTZKeL4w=
 github.com/oschwald/maxminddb-golang v1.5.0 h1:rmyoIV6z2/s9TCJedUuDiKht2RN12LWJ1L7iRGtWY64=
 github.com/oschwald/maxminddb-golang v1.5.0/go.mod h1:3jhIUymTJ5VREKyIhWm66LJiQt04F0UCDdodShpjWsY=
+github.com/pieterclaerhout/go-finance v1.0.4 h1:b11zgjRg8JyhOALkSZhv5ywK95koyfeRbqxV/ELsBag=
+github.com/pieterclaerhout/go-finance v1.0.4/go.mod h1:SJPNnR+/MdHnTRWnvVqoHEcvFkuTuLL+CqsKrvxhbvE=
 github.com/pieterclaerhout/go-formatter v1.0.2 h1:/dGd9L64vwx3XvKWVRjoy5s1klxsdb9nXd8i7ngQ6sI=
 github.com/pieterclaerhout/go-formatter v1.0.2/go.mod h1:1okQQFUwXCLGTWXoWoh3OGchp3i7KeebwIx/ufmsjks=
 github.com/pieterclaerhout/go-log v1.0.1 h1:MafIGXKdDopO/wfwc4QzkWdETrk7BnoVpXs3picnSX4=

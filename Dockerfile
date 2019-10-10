@@ -40,5 +40,7 @@ RUN chmod +x ./geoip-server
 
 COPY --from=geoip-db /GeoLite2-City.mmdb ./
 
+ENV GEOIP_DB=./GeoLite2-City.mmdb
+
 ENTRYPOINT ["./geoip-server"]
 EXPOSE 8080

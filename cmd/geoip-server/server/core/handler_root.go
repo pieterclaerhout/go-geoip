@@ -6,6 +6,6 @@ import (
 	"github.com/labstack/echo"
 )
 
-func (engine *Core) handlerRoot(c echo.Context) error {
+func (module *Core) handlerRoot(c echo.Context) error {
 	return echo.NewHTTPError(http.StatusNotFound, "Move on, nothing here!")
 }
