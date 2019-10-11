@@ -48,8 +48,8 @@ func Test_Database_Lookup(t *testing.T) {
 				assert.Errorf(t, err, tc.input)
 			} else {
 				assert.NoErrorf(t, err, tc.input)
-				// assert.NotNil(t, actual, tc.input)
-				// assert.Equalf(t, tc.input, actual.IPAddress, tc.input)
+				assert.NotNil(t, actual, tc.input)
+				assert.Equalf(t, tc.input, actual.IPAddress, tc.input)
 			}
 
 		})
@@ -248,7 +248,7 @@ func Test_Database_TimeZone(t *testing.T) {
 
 }
 
-func Test_Database_DBWithPath_Invalid(t *testing.T) {
+func Test_Database_DatabaseWithPath_Invalid(t *testing.T) {
 
 	db := geoip.NewDatabase("invalid-path")
 
@@ -258,7 +258,7 @@ func Test_Database_DBWithPath_Invalid(t *testing.T) {
 
 }
 
-func Test_Database_DefaultDatabase_Cache(t *testing.T) {
+func Test_Database_Lookup_Cache(t *testing.T) {
 
 	db := openTestDatabase(t)
 	db.ClearCache()
