@@ -1,21 +1,22 @@
-## STAGE 1 - MOD DOWnLOAD
+## STAGE 1 - MOD DOWNLOAD
 FROM golang:1.13.1-alpine AS mod-download
 
-RUN mkdir -p /app/backend
-ADD go.mod /app/backend
-ADD go.sum /app/backend
+RUN mkdir -p /app
 
-WORKDIR /app/backend
+ADD go.mod /app
+ADD go.sum /app
+
+WORKDIR /app
 
 RUN go mod download
 
 ## STAGE 2 - BUILD
 FROM mod-download AS builder
 
-ADD . /app/backend
-WORKDIR /app/backend
+ADD . /app
+WORKDIR /app
 
-RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -trimpath -ldflags "-s -w" -a -o /geoip-server .
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -trimpath -a --ldflags '-extldflags -static' -o geoip-server github.com/pieterclaerhout/go-geoip/cmd/geoip-server
 
 # STAGE 3 - GEOIP DB
 
@@ -33,14 +34,14 @@ RUN rm -rf tmp
 
 FROM alpine:latest 
 
-RUN apk --no-cache add ca-certificates tzdata curl
+RUN apk --no-cache add ca-certificates tzdata
 
-COPY --from=builder /geoip-server ./
-RUN chmod +x ./geoip-server
+COPY --from=builder /app/geoip-server /
+RUN chmod a+x /geoip-server
 
-COPY --from=geoip-db /GeoLite2-City.mmdb ./
+COPY --from=geoip-db /GeoLite2-City.mmdb /
 
-ENV GEOIP_DB=./GeoLite2-City.mmdb
+ENV GEOIP_DB=/GeoLite2-City.mmdb
 
-ENTRYPOINT ["./geoip-server"]
+ENTRYPOINT ["/geoip-server"]
 EXPOSE 8080
