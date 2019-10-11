@@ -11,10 +11,14 @@ build-server:
 	@go build -trimpath -ldflags "-s -w" -o geoip-server github.com/pieterclaerhout/go-geoip/cmd/geoip-server
 
 run-server: build-server
-	@PORT=:8080 GEOIP_DB=testdata/GeoLite2-City.mmdb ./geoip-server
+	@PORT=8080 GEOIP_DB=testdata/GeoLite2-City.mmdb ./geoip-server
 
 build-docker-image:
 	docker build -t geoip-server .
+
+publish-docker-image:
+	docker tag geoip-server pieterclaerhout/geoip-server
+	docker push pieterclaerhout/geoip-server
 	
 run-docker-image: build-docker-image
 	docker run --rm -p 8080:8080 geoip-server
