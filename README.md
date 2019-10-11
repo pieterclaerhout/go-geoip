@@ -5,3 +5,73 @@
 [![license](https://img.shields.io/badge/license-Apache%20v2-orange.svg)](https://github.com/pieterclaerhout/go-geoip/raw/master/LICENSE)
 [![GitHub version](https://badge.fury.io/gh/pieterclaerhout%2Fgo-geoip.svg)](https://badge.fury.io/gh/pieterclaerhout%2Fgo-geoip)
 [![GitHub issues](https://img.shields.io/github/issues/pieterclaerhout/go-geoip.svg)](https://github.com/pieterclaerhout/go-geoip/issues)
+
+Requires Go 1.13.
+
+## Building
+
+```
+make build-server
+```
+
+## Building docker image
+
+```
+make build-docker-image
+```
+
+## Running manually
+
+```
+PORT=8080 GEOIP_DB=testdata/GeoLite2-City.mmdb ./geoip-server
+```
+
+## Running via docker
+
+The [docker image](https://hub.docker.com/r/pieterclaerhout/geoip-server) automatically includes a copy of the [GeoLite2-City.mmdb](https://geolite.maxmind.com/download/geoip/database/GeoLite2-City.tar.gz) database.
+
+```
+docker run --rm pieterclaerhout/geoip-server
+```
+
+## Using the server
+
+```bash
+$ curl "http://localhost:8080/lookup?ip=1.1.1.1"
+{
+  "IPAddress": "1.1.1.1",
+  "Continent": {
+    "ISOCode": "OC",
+    "Names": {
+      "de": "Ozeanien",
+      "en": "Oceania",
+      "es": "Oceanía",
+      "fr": "Océanie",
+      "ja": "オセアニア",
+      "pt-BR": "Oceania",
+      "ru": "Океания",
+      "zh-CN": "大洋洲"
+    }
+  },
+  "Country": {
+    "ISOCode": "AU",
+    "Names": {
+      "de": "Australien",
+      "en": "Australia",
+      "es": "Australia",
+      "fr": "Australie",
+      "ja": "オーストラリア",
+      "pt-BR": "Austrália",
+      "ru": "Австралия",
+      "zh-CN": "澳大利亚"
+    }
+  },
+  "Location": {
+    "Latitude": -33.494,
+    "Longitude": 143.2104,
+    "TimeZone": "Australia/Sydney"
+  },
+  "Subdivisions": null,
+  "IsCached": false
+}
+```
