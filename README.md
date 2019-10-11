@@ -82,23 +82,23 @@ $ curl "http://localhost:8080/lookup?ip=1.1.1.1"
 package main
 
 import (
-  "fmt"
-  "os"
-  "time"
-  "github.com/pieterclaerhout/go-geoip"
+    "fmt"
+    "os"
+    "time"
+    "github.com/pieterclaerhout/go-geoip"
 )
 
 func main() {
 
-  client := geoip.NewClient("http://localhost:8080/lookup", 5*time.Second)
-
-  actual, err := client.Lookup("1.1.1.1")
-  if err != nil {
-    fmt.Println(err)
-    os.Exit(1)
-  }
-
-  fmt.Printf("%v\n", actual)
+    client := geoip.NewClient("http://localhost:8080/  lookup", 5*time.Second)
+  
+    actual, err := client.Lookup("1.1.1.1")
+    if err != nil {
+        fmt.Println(err)
+        os.Exit(1)
+    }
+  
+    fmt.Printf("%v\n", actual)
 
 }
 ```
