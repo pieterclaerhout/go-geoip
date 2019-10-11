@@ -3,7 +3,6 @@ package main
 import (
 	"os"
 	"runtime"
-	"strings"
 
 	"github.com/pieterclaerhout/go-log"
 
@@ -16,21 +15,8 @@ func main() {
 
 	log.PrintTimestamp = true
 
-	port := os.Getenv("PORT")
-	if port == "" {
-		port = ":8080"
-	}
-	if !strings.HasPrefix(port, ":") {
-		port = ":" + port
-	}
-
-	// debug := os.Getenv("DEBUG")
-	// if debug == "1" {
-	// 	log.DebugMode = true
-	// }
-
 	engine := server.New()
-	err := engine.Start(port)
+	err := engine.Start()
 	log.CheckError(err)
 
 	os.Exit(0)
