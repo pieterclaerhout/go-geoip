@@ -41,6 +41,7 @@ func (database *Database) Lookup(ipaddress string) (*IPLocation, error) {
 	if err != nil {
 		return location, err
 	}
+	defer db.Close()
 
 	ip := net.ParseIP(ipaddress)
 
