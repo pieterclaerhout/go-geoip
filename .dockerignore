@@ -1,4 +1,12 @@
+.git
+.gitignore
+LICENSE
+README.md
+Makefile
+**/testdata*
 geoip-server
-testdata
+database.mmdb
+database.mmdb.md5
 db-downloader
-GeoLite-*
+GeoLite2-City.mmdb
+GeoLite2-City.mmdb.md5
