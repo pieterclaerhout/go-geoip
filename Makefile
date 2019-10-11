@@ -16,3 +16,5 @@ run-server: build-server
 build-docker-image:
 	docker build -t geoip-server .
 	
+run-docker-image:
+	docker run --rm geoip-server
