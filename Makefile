@@ -1,3 +1,5 @@
+REVISION := $(shell git rev-parse --short HEAD)
+
 download-testdata:
 	rm -rf testdata
 	mkdir -p testdata
@@ -16,9 +18,11 @@ run-server: build-server
 build-docker-image:
 	docker build -t geoip-server .
 
-publish-docker-image:
-	docker tag geoip-server pieterclaerhout/geoip-server
-	docker push pieterclaerhout/geoip-server
+publish-docker-image: build-docker-image
+	docker tag geoip-server pieterclaerhout/geoip-server:$(REVISION)
+	docker tag geoip-server pieterclaerhout/geoip-server:latest
+	docker push pieterclaerhout/geoip-server:$(REVISION)
+	docker push pieterclaerhout/geoip-server:latest
 	
 run-docker-image: build-docker-image
 	docker run --rm -p 8080:8080 geoip-server
