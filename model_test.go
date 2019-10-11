@@ -8,7 +8,9 @@ import (
 	"github.com/pieterclaerhout/go-geoip"
 )
 
-func Test_ContinentCode(t *testing.T) {
+// TODO: should not need database
+
+func Test_Model_ContinentCode(t *testing.T) {
 
 	type test struct {
 		input       string
@@ -58,7 +60,7 @@ func Test_ContinentCode(t *testing.T) {
 
 }
 
-func Test_ContinentName(t *testing.T) {
+func Test_Model_ContinentName(t *testing.T) {
 
 	type test struct {
 		input       string
@@ -107,7 +109,7 @@ func Test_ContinentName(t *testing.T) {
 
 }
 
-func Test_SubdivisionCodes(t *testing.T) {
+func Test_Model_SubdivisionCodes(t *testing.T) {
 
 	type test struct {
 		input       string
@@ -156,7 +158,7 @@ func Test_SubdivisionCodes(t *testing.T) {
 
 }
 
-func Test_SubdivisionNames(t *testing.T) {
+func Test_Model_SubdivisionNames(t *testing.T) {
 
 	type test struct {
 		input       string
@@ -205,7 +207,7 @@ func Test_SubdivisionNames(t *testing.T) {
 
 }
 
-func Test_ApproximateGPSCoordinate(t *testing.T) {
+func Test_Model_ApproximateGPSCoordinate(t *testing.T) {
 
 	type test struct {
 		input       string
@@ -255,17 +257,17 @@ func Test_ApproximateGPSCoordinate(t *testing.T) {
 
 }
 
-func Test_DefaultCountryCode(t *testing.T) {
+func Test_Model_DefaultCountryCode(t *testing.T) {
 	location := &geoip.IPLocation{}
 	assert.Equal(t, "BE", location.CountryCode())
 }
 
-func Test_DefaultCountryName(t *testing.T) {
+func Test_Model_DefaultCountryName(t *testing.T) {
 	location := &geoip.IPLocation{}
 	assert.Equal(t, "Belgium", location.CountryName())
 }
 
-func Test_DefaultTimeZone(t *testing.T) {
+func Test_Model_DefaultTimeZone(t *testing.T) {
 	location := &geoip.IPLocation{}
 	assert.Equal(t, "Europe/Brussels", location.TimeZone())
 }

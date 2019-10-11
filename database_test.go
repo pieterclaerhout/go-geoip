@@ -10,7 +10,7 @@ import (
 	"github.com/pieterclaerhout/go-geoip"
 )
 
-func Test_Lookup(t *testing.T) {
+func Test_Database_Lookup(t *testing.T) {
 
 	type test struct {
 		input       string
@@ -58,7 +58,7 @@ func Test_Lookup(t *testing.T) {
 
 }
 
-func Test_CountryCode(t *testing.T) {
+func Test_Database_CountryCode(t *testing.T) {
 
 	type test struct {
 		input       string
@@ -105,7 +105,7 @@ func Test_CountryCode(t *testing.T) {
 	}
 }
 
-func Test_CountryName(t *testing.T) {
+func Test_Database_CountryName(t *testing.T) {
 
 	type test struct {
 		input       string
@@ -152,7 +152,7 @@ func Test_CountryName(t *testing.T) {
 	}
 }
 
-func Test_RegionName(t *testing.T) {
+func Test_Database_RegionName(t *testing.T) {
 
 	type test struct {
 		input       string
@@ -200,7 +200,7 @@ func Test_RegionName(t *testing.T) {
 
 }
 
-func Test_TimeZone(t *testing.T) {
+func Test_Database_TimeZone(t *testing.T) {
 
 	type test struct {
 		input       string
@@ -248,7 +248,7 @@ func Test_TimeZone(t *testing.T) {
 
 }
 
-func Test_DBWithPath_Invalid(t *testing.T) {
+func Test_Database_DBWithPath_Invalid(t *testing.T) {
 
 	db := geoip.NewDatabase("invalid-path")
 
@@ -258,7 +258,7 @@ func Test_DBWithPath_Invalid(t *testing.T) {
 
 }
 
-func Test_DefaultDatabase_Cache(t *testing.T) {
+func Test_Database_DefaultDatabase_Cache(t *testing.T) {
 
 	db := openTestDatabase(t)
 	db.ClearCache()
