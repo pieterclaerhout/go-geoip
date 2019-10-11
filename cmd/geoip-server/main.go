@@ -2,21 +2,18 @@ package main
 
 import (
 	"os"
-	"runtime"
 
 	"github.com/pieterclaerhout/go-log"
+	"github.com/pieterclaerhout/go-webserver"
 
-	"github.com/pieterclaerhout/go-geoip/cmd/geoip-server/server"
+	"github.com/pieterclaerhout/go-geoip/cmd/geoip-server/core"
 )
 
 func main() {
 
-	runtime.GOMAXPROCS(runtime.NumCPU())
-
-	log.PrintTimestamp = true
-
-	engine := server.New()
-	err := engine.Start()
+	server := webserver.New()
+	server.Register(&core.Core{})
+	err := server.Start()
 	log.CheckError(err)
 
 	os.Exit(0)

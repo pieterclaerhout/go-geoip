@@ -15,6 +15,14 @@ type Core struct {
 
 // Register the endpoints on the router
 func (module *Core) Register(router *echo.Echo) {
+	g := router.Group("/")
+	g.GET("", module.handlerRoot)
+	g.Any("lookup", module.handlerLookup)
+	g.Any("status", module.handlerStatus)
+}
+
+// Start is executed when the server starts
+func (module *Core) Start() {
 
 	dbPath := os.Getenv("GEOIP_DB")
 	if dbPath == "" {
@@ -24,9 +32,8 @@ func (module *Core) Register(router *echo.Echo) {
 	module.GeoipDB = geoip.NewDatabase(dbPath)
 	log.Info("Using GeoIP db:", dbPath)
 
-	g := router.Group("/")
-	g.GET("", module.handlerRoot)
-	g.Any("lookup", module.handlerLookup)
-	g.Any("status", module.handlerStatus)
+}
 
+// Stop is executed when the server stop
+func (module *Core) Stop() {
 }
