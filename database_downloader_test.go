@@ -5,9 +5,12 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"os"
+	"path/filepath"
+	"strings"
 	"testing"
 	"time"
 
+	"github.com/Flaque/filet"
 	"github.com/stretchr/testify/assert"
 
 	"github.com/pieterclaerhout/go-geoip"
@@ -39,10 +42,11 @@ func Test_DatabaseDownloader_LocalChecksum_NoDBFile(t *testing.T) {
 
 func Test_DatabaseDownloader_LocalChecksum_NoChecksumFile(t *testing.T) {
 
-	dbPath := "db.mmdb"
-	defer os.Remove(dbPath)
+	defer filet.CleanUp(t)
 
-	ioutil.WriteFile(dbPath, []byte(""), 0666)
+	dbPath := "db.mmdb"
+
+	filet.File(t, dbPath, "")
 
 	downloader := geoip.NewDatabaseDownloader(dbPath, 1*time.Second)
 
@@ -54,15 +58,15 @@ func Test_DatabaseDownloader_LocalChecksum_NoChecksumFile(t *testing.T) {
 
 func Test_DatabaseDownloader_LocalChecksum_Valid(t *testing.T) {
 
+	defer filet.CleanUp(t)
+
 	expected := "checksum"
 
 	dbPath := "db.mmdb"
-	defer os.Remove(dbPath)
-	ioutil.WriteFile(dbPath, []byte(expected), 0666)
+	filet.File(t, dbPath, expected)
 
 	checksumPath := dbPath + geoip.DefaultChecksumExt
-	defer os.Remove(checksumPath)
-	ioutil.WriteFile(checksumPath, []byte(expected), 0666)
+	filet.File(t, checksumPath, expected)
 
 	downloader := geoip.NewDatabaseDownloader(dbPath, 1*time.Second)
 
@@ -140,12 +144,181 @@ func Test_DatabaseDownloader_RemoteChecksum_ReadBodyError(t *testing.T) {
 
 }
 
-// func testDatabaseDownloaderDBPath(t *testing.T) string {
-// 	t.Helper()
-// 	return "database.mmdb"
-// }
+func Test_DatabaseDownloader_ShouldDownload_False(t *testing.T) {
 
-// func testDatabaseDownloaderCleanup(t *testing.T, dbPath string) {
-// 	t.Helper()
-// 	os.Remove(dbPath)
-// }
+	defer filet.CleanUp(t)
+
+	expected := "checksum"
+
+	dbPath := "db.mmdb"
+	filet.File(t, dbPath, expected)
+
+	checksumPath := dbPath + geoip.DefaultChecksumExt
+	filet.File(t, checksumPath, expected)
+
+	s := httptest.NewServer(
+		http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			w.Write([]byte(expected))
+		}),
+	)
+	defer s.Close()
+
+	downloader := geoip.NewDatabaseDownloader(dbPath, 1*time.Second)
+	downloader.ChecksumURL = s.URL
+
+	actual, err := downloader.ShouldDownload()
+	assert.NoError(t, err, "error")
+	assert.False(t, actual, "actual")
+
+}
+
+func Test_DatabaseDownloader_ShouldDownload_True(t *testing.T) {
+
+	defer filet.CleanUp(t)
+
+	expected := "checksum"
+
+	dbPath := "db.mmdb"
+	filet.File(t, dbPath, expected)
+
+	s := httptest.NewServer(
+		http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			w.Write([]byte(expected))
+		}),
+	)
+	defer s.Close()
+
+	downloader := geoip.NewDatabaseDownloader(dbPath, 1*time.Second)
+	downloader.ChecksumURL = s.URL
+
+	actual, err := downloader.ShouldDownload()
+	assert.NoError(t, err, "error")
+	assert.True(t, actual, "actual")
+
+}
+
+func Test_DatabaseDownloader_Download_Valid(t *testing.T) {
+
+	expected := "expected"
+	checksum := "checksum"
+
+	wd, _ := os.Getwd()
+	path := filepath.Join(wd, "testdata", "validdb.tgz")
+	tgzData, _ := ioutil.ReadFile(path)
+
+	dbPath := "db.mmdb"
+	os.Remove(dbPath)
+	defer os.Remove(dbPath)
+
+	checksumPath := dbPath + geoip.DefaultChecksumExt
+	os.Remove(checksumPath)
+	defer os.Remove(checksumPath)
+
+	s := httptest.NewServer(
+		http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			if strings.HasSuffix(r.RequestURI, geoip.DefaultChecksumExt) {
+				w.Write([]byte(checksum))
+			} else {
+				w.Write(tgzData)
+			}
+		}),
+	)
+	defer s.Close()
+
+	downloader := geoip.NewDatabaseDownloader(dbPath, 1*time.Second)
+	downloader.DownloadURL = s.URL + "/validdb.tgz"
+	downloader.ChecksumURL = downloader.DownloadURL + geoip.DefaultChecksumExt
+
+	err := downloader.Download()
+
+	assert.NoError(t, err, "error")
+	assert.FileExists(t, dbPath)
+	assert.FileExists(t, checksumPath)
+
+	filet.FileSays(t, dbPath, []byte(expected+"\n"))
+	filet.FileSays(t, checksumPath, []byte(checksum))
+
+}
+
+func Test_DatabaseDownloader_Download_InvalidDownload(t *testing.T) {
+
+	// expected := "expected"
+	checksum := "checksum"
+
+	wd, _ := os.Getwd()
+	path := filepath.Join(wd, "testdata", "invaliddb.tgz")
+	tgzData, _ := ioutil.ReadFile(path)
+
+	dbPath := "db.mmdb"
+	os.Remove(dbPath)
+	defer os.Remove(dbPath)
+
+	checksumPath := dbPath + geoip.DefaultChecksumExt
+	os.Remove(checksumPath)
+	defer os.Remove(checksumPath)
+
+	s := httptest.NewServer(
+		http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			if strings.HasSuffix(r.RequestURI, geoip.DefaultChecksumExt) {
+				w.Write([]byte(checksum))
+			} else {
+				w.Write(tgzData)
+			}
+		}),
+	)
+	defer s.Close()
+
+	downloader := geoip.NewDatabaseDownloader(dbPath, 1*time.Second)
+	downloader.DownloadURL = s.URL + "/invaliddb.tgz"
+	downloader.ChecksumURL = downloader.DownloadURL + geoip.DefaultChecksumExt
+
+	err := downloader.Download()
+
+	assert.Error(t, err, "error")
+
+}
+
+func Test_DatabaseDownloader_Download_InvalidURL(t *testing.T) {
+
+	downloader := geoip.NewDatabaseDownloader("", 5*time.Second)
+	downloader.DownloadURL = "ht&@-tp://:aa"
+
+	err := downloader.Download()
+	assert.Error(t, err)
+
+}
+
+func Test_DatabaseDownloader_Download_Timeout(t *testing.T) {
+
+	s := httptest.NewServer(
+		http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			time.Sleep(500 * time.Millisecond)
+			w.Write([]byte("checksum"))
+		}),
+	)
+	defer s.Close()
+
+	downloader := geoip.NewDatabaseDownloader("", 250*time.Millisecond)
+	downloader.DownloadURL = s.URL
+
+	err := downloader.Download()
+	assert.Error(t, err)
+
+}
+
+func Test_DatabaseDownloader_Download_ReadBodyError(t *testing.T) {
+
+	s := httptest.NewServer(
+		http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			w.Header().Set("Content-Length", "1")
+		}),
+	)
+	defer s.Close()
+
+	downloader := geoip.NewDatabaseDownloader("", 1*time.Second)
+	downloader.DownloadURL = s.URL
+
+	err := downloader.Download()
+	assert.Error(t, err)
+
+}

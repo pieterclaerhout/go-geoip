@@ -3,6 +3,7 @@ package geoip
 import (
 	"archive/tar"
 	"compress/gzip"
+	"errors"
 	"io"
 	"io/ioutil"
 	"net/http"
@@ -146,18 +147,20 @@ func (downloader *DatabaseDownloader) Download() error {
 			return err
 		}
 
+		remoteChecksum, err := downloader.RemoteChecksum()
+		if err != nil {
+			return err
+		}
+
+		if err := ioutil.WriteFile(downloader.localChecksumPath, []byte(remoteChecksum), 0666); err != nil {
+			return err
+		}
+
+		return nil
+
 	}
 
-	remoteChecksum, err := downloader.RemoteChecksum()
-	if err != nil {
-		return err
-	}
-
-	if err := ioutil.WriteFile(downloader.localChecksumPath, []byte(remoteChecksum), 0666); err != nil {
-		return err
-	}
-
-	return nil
+	return errors.New("Invalid download, tgz doesn't contain a .mmdb file")
 
 }
 
