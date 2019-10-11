@@ -12,8 +12,14 @@ download-testdata:
 build-server:
 	@go build -trimpath -ldflags "-s -w" -o geoip-server github.com/pieterclaerhout/go-geoip/cmd/geoip-server
 
+build-db-downloader:
+	@go build -trimpath -ldflags "-s -w" -o db-downloader github.com/pieterclaerhout/go-geoip/cmd/db-downloader
+
 run-server: build-server
 	@PORT=8080 GEOIP_DB=testdata/GeoLite2-City.mmdb ./geoip-server
+
+run-db-downloader: build-db-downloader
+	@DEBUG=1 ./db-downloader
 
 build-docker-image:
 	docker build -t geoip-server .

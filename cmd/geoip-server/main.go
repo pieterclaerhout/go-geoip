@@ -24,10 +24,10 @@ func main() {
 		port = ":" + port
 	}
 
-	debug := os.Getenv("DEBUG")
-	if debug == "1" {
-		log.DebugMode = true
-	}
+	// debug := os.Getenv("DEBUG")
+	// if debug == "1" {
+	// 	log.DebugMode = true
+	// }
 
 	engine := server.New()
 	err := engine.Start(port)

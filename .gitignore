@@ -1,1 +1,4 @@
 geoip-server
+/database.mmdb
+/database.mmdb.md5
+/db-downloader

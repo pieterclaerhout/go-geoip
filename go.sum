@@ -23,6 +23,8 @@ github.com/pieterclaerhout/go-formatter v1.0.2 h1:/dGd9L64vwx3XvKWVRjoy5s1klxsdb
 github.com/pieterclaerhout/go-formatter v1.0.2/go.mod h1:1okQQFUwXCLGTWXoWoh3OGchp3i7KeebwIx/ufmsjks=
 github.com/pieterclaerhout/go-log v1.0.1 h1:MafIGXKdDopO/wfwc4QzkWdETrk7BnoVpXs3picnSX4=
 github.com/pieterclaerhout/go-log v1.0.1/go.mod h1:qhAf0/tt5vau3o/b8dFwri6j9o93u2sk7erGuFgHtH0=
+github.com/pieterclaerhout/go-log v1.0.2 h1:J0LTEFsY2XZsljoFm322sofNknxGnM/qK+VvnWIDNMI=
+github.com/pieterclaerhout/go-log v1.0.2/go.mod h1:qhAf0/tt5vau3o/b8dFwri6j9o93u2sk7erGuFgHtH0=
 github.com/pieterclaerhout/go-xray v1.0.2 h1:/+lZGF/maR4o2/1j87yI74n61tBjNe2YI/DRFgZlOAM=
 github.com/pieterclaerhout/go-xray v1.0.2/go.mod h1:CyzvayUrh9qYuXG6Qs+mQ6QVGmhKRVoJwZxA8tcE1cw=
 github.com/pkg/errors v0.8.1 h1:iURUrRGxPUNPdy5/HRSm+Yj6okJ6UtLINN0Q9M4+h3I=
