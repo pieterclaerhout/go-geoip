@@ -1,2 +1,4 @@
 geoip-server
 testdata
+db-downloader
+GeoLite-*
