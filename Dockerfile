@@ -15,7 +15,7 @@ FROM mod-download AS builder
 ADD . /app/backend
 WORKDIR /app/backend
 
-RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -a -o /geoip-server .
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -trimpath -ldflags "-s -w" -a -o /geoip-server .
 
 # STAGE 3 - GEOIP DB
 
