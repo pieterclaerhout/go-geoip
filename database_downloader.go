@@ -11,26 +11,41 @@ import (
 	"time"
 )
 
+// DefaultDownloadURL is the URL where to download the tgz file
+const DefaultDownloadURL = "https://geolite.maxmind.com/download/geoip/database/GeoLite2-City.tar.gz"
+
+// DefaultChecksumURL is the URL where to download the checksum file
+const DefaultChecksumURL = "https://geolite.maxmind.com/download/geoip/database/GeoLite2-City.tar.gz.md5"
+
+// DefaultChecksumExt is the default extension for the local checksum
+const DefaultChecksumExt = ".md5"
+
+// DatabaseDownloader is a struct used to download the GeoLite database from maxmind
 type DatabaseDownloader struct {
-	TargetFilePath    string
-	localChecksumPath string
-	downloadURL       string
-	checksumURL       string
-	httpClient        *http.Client
+	TargetFilePath    string       // The path where to store the database
+	localChecksumPath string       // The path where the local checksum is stored, defaults to target path + ".md5"
+	DownloadURL       string       // The URL where to download the tgz file
+	ChecksumURL       string       // The URL where to download the remote checksum
+	httpClient        *http.Client // The HTTP client which is used to do the downloading
 }
 
+// NewDatabaseDownloader returns a new DatabaseDownloader instance configured with the default URLs
+//
+// The default URLs download the latest GeoLite2-City database from:
+// https://geolite.maxmind.com/download/geoip/database/GeoLite2-City.tar.gz.md5
 func NewDatabaseDownloader(targetFilePath string, timeout time.Duration) *DatabaseDownloader {
 	return &DatabaseDownloader{
 		TargetFilePath:    targetFilePath,
-		localChecksumPath: targetFilePath + ".md5",
-		downloadURL:       "https://geolite.maxmind.com/download/geoip/database/GeoLite2-City.tar.gz",
-		checksumURL:       "https://geolite.maxmind.com/download/geoip/database/GeoLite2-City.tar.gz.md5",
+		localChecksumPath: targetFilePath + DefaultChecksumExt,
+		DownloadURL:       DefaultDownloadURL,
+		ChecksumURL:       DefaultChecksumURL,
 		httpClient: &http.Client{
 			Timeout: timeout,
 		},
 	}
 }
 
+// LocalChecksum returns the local checksum if any
 func (downloader *DatabaseDownloader) LocalChecksum() (string, error) {
 
 	if !downloader.fileExists(downloader.TargetFilePath) {
@@ -41,12 +56,6 @@ func (downloader *DatabaseDownloader) LocalChecksum() (string, error) {
 		return "", nil
 	}
 
-	// file, err := os.Open(downloader.TargetFilePath)
-	// if err != nil {
-	// 	return "", err
-	// }
-	// defer file.Close()
-
 	localChecksum, err := ioutil.ReadFile(downloader.localChecksumPath)
 	if err != nil {
 		return "", err
@@ -56,9 +65,10 @@ func (downloader *DatabaseDownloader) LocalChecksum() (string, error) {
 
 }
 
+// RemoteChecksum returns the remote checksum
 func (downloader *DatabaseDownloader) RemoteChecksum() (string, error) {
 
-	resp, err := downloader.doRequest(downloader.checksumURL)
+	resp, err := downloader.doGETRequest(downloader.ChecksumURL)
 	if err != nil {
 		return "", err
 	}
@@ -73,6 +83,10 @@ func (downloader *DatabaseDownloader) RemoteChecksum() (string, error) {
 
 }
 
+// ShouldDownload checks if a download is needed or not
+//
+// It does this by comparing the local and remote checksum.
+// If they are different, a download is needed
 func (downloader *DatabaseDownloader) ShouldDownload() (bool, error) {
 
 	localChecksum, err := downloader.LocalChecksum()
@@ -89,9 +103,10 @@ func (downloader *DatabaseDownloader) ShouldDownload() (bool, error) {
 
 }
 
+// Download performs the actual download of the database
 func (downloader *DatabaseDownloader) Download() error {
 
-	resp, err := downloader.doRequest(downloader.downloadURL)
+	resp, err := downloader.doGETRequest(downloader.DownloadURL)
 	if err != nil {
 		return err
 	}
@@ -146,7 +161,8 @@ func (downloader *DatabaseDownloader) Download() error {
 
 }
 
-func (downloader *DatabaseDownloader) doRequest(urlString string) (*http.Response, error) {
+// doRequest is a helper function to perform a GET request and return the HTTP response
+func (downloader *DatabaseDownloader) doGETRequest(urlString string) (*http.Response, error) {
 
 	req, err := http.NewRequest("GET", urlString, nil)
 	if err != nil {
@@ -166,6 +182,7 @@ func (downloader *DatabaseDownloader) doRequest(urlString string) (*http.Respons
 
 }
 
+// fileExists is a helper function to check if a file exists or not
 func (downloader *DatabaseDownloader) fileExists(filename string) bool {
 	info, err := os.Stat(filename)
 	if os.IsNotExist(err) {
