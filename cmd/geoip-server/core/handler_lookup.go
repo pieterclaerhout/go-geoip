@@ -17,7 +17,7 @@ func (module *Core) handlerLookup(c echo.Context) error {
 		return err
 	}
 
-	result, err := module.GeoipDB.Lookup(r.IPAddress)
+	result, err := module.GeoDB.Lookup(r.IPAddress)
 	if err != nil {
 		return err
 	}

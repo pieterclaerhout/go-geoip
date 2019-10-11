@@ -1,14 +1,5 @@
 REVISION := $(shell git rev-parse --short HEAD)
 
-download-testdata:
-	rm -rf testdata
-	mkdir -p testdata
-	mkdir -p tmp
-	curl https://geolite.maxmind.com/download/geoip/database/GeoLite2-City.tar.gz > tmp/GeoLite2-City.tar.gz
-	tar xzf tmp/GeoLite2-City.tar.gz -C tmp --strip-components 1
-	mv tmp/GeoLite2-City.mmdb testdata/
-	rm -rf tmp/
-
 build-server:
 	@go build -trimpath -ldflags "-s -w" -o geoip-server github.com/pieterclaerhout/go-geoip/cmd/geoip-server
 
@@ -16,7 +7,7 @@ build-db-downloader:
 	@go build -trimpath -ldflags "-s -w" -o db-downloader github.com/pieterclaerhout/go-geoip/cmd/db-downloader
 
 run-server: build-server
-	@PORT=8080 GEOIP_DB=testdata/GeoLite2-City.mmdb ./geoip-server
+	@PORT=8080 GEOIP_DB=GeoLite2-City.mmdb DEBUG=1 ./geoip-server
 
 run-db-downloader: build-db-downloader
 	@DEBUG=1 ./db-downloader

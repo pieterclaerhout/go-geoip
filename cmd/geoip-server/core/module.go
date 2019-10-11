@@ -2,15 +2,18 @@ package core
 
 import (
 	"os"
+	"time"
 
 	"github.com/labstack/echo"
+
 	"github.com/pieterclaerhout/go-geoip"
 	"github.com/pieterclaerhout/go-log"
+	"github.com/pieterclaerhout/go-webserver/jobqueue"
 )
 
 // Core defines the core module
 type Core struct {
-	GeoipDB *geoip.Database
+	GeoDB *geoip.Database
 }
 
 // Register the endpoints on the router
@@ -29,8 +32,21 @@ func (module *Core) Start() {
 		log.Fatal("GEOIP_DB env var not set")
 	}
 
-	module.GeoipDB = geoip.NewDatabase(dbPath)
+	module.GeoDB = geoip.NewDatabase(dbPath)
 	log.Info("Using GeoIP db:", dbPath)
+
+	job := &DownloadGeoIPDatabaseJob{
+		GeoDBDownloader: geoip.NewDatabaseDownloader(dbPath, 5*time.Second),
+	}
+
+	interval := 1 * time.Hour
+	if os.Getenv("DEBUG") == "1" {
+		interval = 5 * time.Second
+	}
+
+	jobqueue.Default().Every(interval, job)
+
+	job.Run()
 
 }
 
