@@ -120,6 +120,8 @@ func (downloader *DatabaseDownloader) Download() error {
 
 	tarReader := tar.NewReader(uncompressedStream)
 
+	foundFile := false
+
 	for true {
 
 		header, err := tarReader.Next()
@@ -156,8 +158,12 @@ func (downloader *DatabaseDownloader) Download() error {
 			return err
 		}
 
-		return nil
+		foundFile = true
 
+	}
+
+	if foundFile {
+		return nil
 	}
 
 	return errors.New("Invalid download, tgz doesn't contain a .mmdb file")

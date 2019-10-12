@@ -3,12 +3,16 @@ package geoip_test
 import (
 	"os"
 	"path/filepath"
+	"sync"
 	"testing"
+	"time"
 
 	"github.com/stretchr/testify/assert"
 
 	"github.com/pieterclaerhout/go-geoip"
 )
+
+var once sync.Once
 
 func Test_Database_Lookup(t *testing.T) {
 
@@ -266,9 +270,9 @@ func Test_Database_Lookup_Cache(t *testing.T) {
 	input := "213.118.8.79"
 
 	nonCached, err := db.Lookup(input)
+	assert.NoErrorf(t, err, "nonCached")
 	assert.NotNil(t, nonCached, "nonCached")
 	assert.False(t, nonCached.IsCached, "nonCached.IsCached")
-	assert.NoErrorf(t, err, "nonCached")
 
 	cached, err := db.Lookup(input)
 	assert.NotNil(t, cached, "cached")
@@ -285,9 +289,24 @@ func Test_Database_Lookup_Cache(t *testing.T) {
 }
 
 func openTestDatabase(t *testing.T) *geoip.Database {
+
 	t.Helper()
+
 	wd, _ := os.Getwd()
-	path := filepath.Join(wd, "testdata", "GeoLite2-City.mmdb")
+	path := filepath.Join(wd, "GeoLite2-City.mmdb")
+
+	once.Do(func() {
+
+		os.Remove(path)
+
+		downloader := geoip.NewDatabaseDownloader(path, 1*time.Minute)
+		if err := downloader.Download(); err != nil {
+			t.Fatal("Failed to download test database")
+		}
+
+	})
+
 	db := geoip.NewDatabase(path)
 	return db
+
 }

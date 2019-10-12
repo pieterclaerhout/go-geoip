@@ -11,7 +11,7 @@ func main() {
 
 	log.PrintTimestamp = true
 
-	downloader := geoip.NewDatabaseDownloader("database.mmdb", 5*time.Second)
+	downloader := geoip.NewDatabaseDownloader("database.mmdb", 1*time.Minute)
 
 	localChecksum, err := downloader.LocalChecksum()
 	log.CheckError(err)

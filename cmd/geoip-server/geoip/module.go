@@ -13,7 +13,8 @@ import (
 
 // GeoIP defines the geoip module
 type GeoIP struct {
-	GeoDB *geoip.Database
+	GeoDB           *geoip.Database
+	GeoDBDownloader *geoip.DatabaseDownloader
 }
 
 // Register the endpoints on the router
@@ -31,10 +32,11 @@ func (module *GeoIP) Start() {
 	}
 
 	module.GeoDB = geoip.NewDatabase(dbPath)
+	module.GeoDBDownloader = geoip.NewDatabaseDownloader(dbPath, 1*time.Minute)
 	log.Info("Using GeoIP db:", dbPath)
 
 	job := &DownloadGeoIPDatabaseJob{
-		GeoDBDownloader: geoip.NewDatabaseDownloader(dbPath, 5*time.Second),
+		GeoDBDownloader: module.GeoDBDownloader,
 	}
 
 	interval := 1 * time.Hour
