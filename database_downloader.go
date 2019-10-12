@@ -8,6 +8,7 @@ import (
 	"io/ioutil"
 	"net/http"
 	"os"
+	"path/filepath"
 	"strings"
 	"time"
 )
@@ -136,6 +137,13 @@ func (downloader *DatabaseDownloader) Download() error {
 
 		if !strings.HasSuffix(header.Name, ".mmdb") {
 			continue
+		}
+
+		targetFileDir := filepath.Dir(downloader.TargetFilePath)
+		if !downloader.fileExists(targetFileDir) {
+			if err := os.MkdirAll(targetFileDir, 0755); err != nil {
+				return err
+			}
 		}
 
 		outFile, err := os.Create(downloader.TargetFilePath)
