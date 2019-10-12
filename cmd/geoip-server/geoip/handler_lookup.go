@@ -1,4 +1,4 @@
-package core
+package geoip
 
 import (
 	"net/http"
@@ -6,7 +6,7 @@ import (
 	"github.com/labstack/echo"
 )
 
-func (module *Core) handlerLookup(c echo.Context) error {
+func (module *GeoIP) handlerLookup(c echo.Context) error {
 
 	type request struct {
 		IPAddress string `json:"ip" form:"ip" query:"ip"`

@@ -1,4 +1,4 @@
-package core
+package geoip
 
 import (
 	"github.com/pieterclaerhout/go-geoip"
