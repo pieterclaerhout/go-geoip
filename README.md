@@ -6,7 +6,9 @@
 [![GitHub version](https://badge.fury.io/gh/pieterclaerhout%2Fgo-geoip.svg)](https://badge.fury.io/gh/pieterclaerhout%2Fgo-geoip)
 [![GitHub issues](https://img.shields.io/github/issues/pieterclaerhout/go-geoip.svg)](https://github.com/pieterclaerhout/go-geoip/issues)
 
-Requires Go 1.13.
+This is a wrapper around the GeoIP databases from [MaxMind](https://www.maxmind.com/en/home).
+
+It also has a web API which automatically keeps the GeoIP database up-to-date.
 
 ## Building
 

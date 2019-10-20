@@ -1,42 +1,77 @@
 {
-    // See https://go.microsoft.com/fwlink/?LinkId=733558
-    // for the documentation about the tasks.json format
-    "version": "2.0.0",
+    "Version": "2.0.0",
     "tasks": [
         {
-            "label": "build-server",
-            "command": "make build-server",
+            "label": "build",
+            "command": "go-james build",
             "type": "shell",
             "group": "build",
-            "problemMatcher": ["$go"]
+            "problemMatcher": [
+                "$go"
+            ]
         },
         {
-            "label": "run-server",
-            "command": "make run-server",
+            "label": "build (verbose)",
+            "command": "go-james build -v",
             "type": "shell",
             "group": "build",
-            "problemMatcher": ["$go"]
+            "problemMatcher": [
+                "$go"
+            ]
         },
         {
-            "label": "build-docker-image",
-            "command": "make build-docker-image",
+            "label": "clean",
+            "command": "go-james clean",
             "type": "shell",
             "group": "build",
-            "problemMatcher": ["$go"]
+            "problemMatcher": [
+                "$go"
+            ]
         },
         {
-            "label": "publish-docker-image",
-            "command": "make publish-docker-image",
+            "label": "tests",
+            "command": "go-james test",
             "type": "shell",
             "group": "build",
-            "problemMatcher": ["$go"]
+            "problemMatcher": [
+                "$go"
+            ]
         },
         {
-            "label": "run-docker-image",
-            "command": "make run-docker-image",
+            "label": "run",
+            "command": "go-james run",
             "type": "shell",
             "group": "build",
-            "problemMatcher": ["$go"]
+            "problemMatcher": [
+                "$go"
+            ]
+        },
+        {
+            "label": "install",
+            "command": "go-james install",
+            "type": "shell",
+            "group": "build",
+            "problemMatcher": [
+                "$go"
+            ]
+        },
+        {
+            "label": "uninstall",
+            "command": "go-james uninstall",
+            "type": "shell",
+            "group": "build",
+            "problemMatcher": [
+                "$go"
+            ]
+        },
+        {
+            "label": "run (debug)",
+            "command": "DEBUG=1 go-james run",
+            "type": "shell",
+            "group": "build",
+            "problemMatcher": [
+                "$go"
+            ]
         }
     ]
 }

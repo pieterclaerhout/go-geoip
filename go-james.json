@@ -1,0 +1,26 @@
+{
+    "project": {
+        "name": "go-geoip",
+        "version": "1.0.0",
+        "description": "",
+        "copyright": "",
+        "package": "github.com/pieterclaerhout/go-geoip",
+        "main_package": "github.com/pieterclaerhout/go-geoip/cmd/geoip-server"
+    },
+    "build": {
+        "ouput_path": "build",
+        "ld_flags": [
+            "-s",
+            "-w"
+        ],
+        "extra_args": [
+            "-trimpath"
+        ]
+    },
+    "package": {
+        "include_readme": true
+    },
+    "test": {
+        "extra_args": []
+    }
+}
