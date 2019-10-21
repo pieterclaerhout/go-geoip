@@ -10,7 +10,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func Test_Client_Lookup(t *testing.T) {
+func TestClientLookup(t *testing.T) {
 
 	s := testServer(t)
 	defer s.Close()
@@ -26,7 +26,7 @@ func Test_Client_Lookup(t *testing.T) {
 
 }
 
-func Test_Client_Lookup_InvalidURL(t *testing.T) {
+func TestClientLookupInvalidURL(t *testing.T) {
 
 	client := geoip.NewClient("ht&@-tp://:aa", 5*time.Second)
 
@@ -36,10 +36,10 @@ func Test_Client_Lookup_InvalidURL(t *testing.T) {
 
 }
 
-func Test_Client_Lookup_Timeout(t *testing.T) {
+func TestClientLookupTimeout(t *testing.T) {
 
 	s := httptest.NewServer(
-		http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
 			time.Sleep(500 * time.Millisecond)
 			w.Header().Set("Content-Type", "text/plain")
 			w.Write([]byte("hello"))
@@ -55,10 +55,10 @@ func Test_Client_Lookup_Timeout(t *testing.T) {
 
 }
 
-func Test_Client_Lookup_ReadBodyError(t *testing.T) {
+func TestClientLookupReadBodyError(t *testing.T) {
 
 	s := httptest.NewServer(
-		http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
 			w.Header().Set("Content-Length", "1")
 		}),
 	)
@@ -72,10 +72,10 @@ func Test_Client_Lookup_ReadBodyError(t *testing.T) {
 
 }
 
-func Test_Client_Lookup_InvalidResponse(t *testing.T) {
+func TestClientLookupInvalidResponse(t *testing.T) {
 
 	s := httptest.NewServer(
-		http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
 			w.Header().Set("Content-Type", "application/json")
 			w.Write([]byte(`{"hello"`))
 		}),
@@ -90,7 +90,7 @@ func Test_Client_Lookup_InvalidResponse(t *testing.T) {
 
 }
 
-func Test_Client_Lookup_Cache(t *testing.T) {
+func TestClientLookupCache(t *testing.T) {
 
 	s := testServer(t)
 
@@ -118,7 +118,7 @@ func Test_Client_Lookup_Cache(t *testing.T) {
 
 }
 
-func Test_Client_CountryCode_Valid(t *testing.T) {
+func TestClientCountryCodeValid(t *testing.T) {
 
 	s := testServer(t)
 	defer s.Close()
@@ -132,7 +132,7 @@ func Test_Client_CountryCode_Valid(t *testing.T) {
 
 }
 
-func Test_Client_CountryCode_Invalid(t *testing.T) {
+func TestClientCountryCodeInvalid(t *testing.T) {
 
 	client := geoip.NewClient("ht&@-tp://:aa", 5*time.Second)
 
@@ -143,7 +143,7 @@ func Test_Client_CountryCode_Invalid(t *testing.T) {
 
 }
 
-func Test_Client_CountryName_Valid(t *testing.T) {
+func TestClientCountryNameValid(t *testing.T) {
 
 	s := testServer(t)
 	defer s.Close()
@@ -157,7 +157,7 @@ func Test_Client_CountryName_Valid(t *testing.T) {
 
 }
 
-func Test_Client_CountryName_Invalid(t *testing.T) {
+func TestClientCountryNameInvalid(t *testing.T) {
 
 	client := geoip.NewClient("ht&@-tp://:aa", 5*time.Second)
 
@@ -168,7 +168,7 @@ func Test_Client_CountryName_Invalid(t *testing.T) {
 
 }
 
-func Test_Client_RegionName_Valid(t *testing.T) {
+func TestClientRegionNameValid(t *testing.T) {
 
 	s := testServer(t)
 	defer s.Close()
@@ -182,7 +182,7 @@ func Test_Client_RegionName_Valid(t *testing.T) {
 
 }
 
-func Test_Client_RegionName_Invalid(t *testing.T) {
+func TestClientRegionNameInvalid(t *testing.T) {
 
 	client := geoip.NewClient("ht&@-tp://:aa", 5*time.Second)
 
@@ -193,7 +193,7 @@ func Test_Client_RegionName_Invalid(t *testing.T) {
 
 }
 
-func Test_Client_TimeZone_Valid(t *testing.T) {
+func TestClientTimeZoneValid(t *testing.T) {
 
 	s := testServer(t)
 	defer s.Close()
@@ -207,7 +207,7 @@ func Test_Client_TimeZone_Valid(t *testing.T) {
 
 }
 
-func Test_Client_TimeZone_Invalid(t *testing.T) {
+func TestClientTimeZoneInvalid(t *testing.T) {
 
 	client := geoip.NewClient("ht&@-tp://:aa", 5*time.Second)
 
@@ -221,7 +221,7 @@ func Test_Client_TimeZone_Invalid(t *testing.T) {
 func testServer(t *testing.T) *httptest.Server {
 	t.Helper()
 	return httptest.NewServer(
-		http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
 			w.Header().Set("Content-Type", "application/json")
 			w.Write([]byte(`{
 				"IPAddress": "1.1.1.1",

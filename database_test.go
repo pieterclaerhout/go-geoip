@@ -14,7 +14,7 @@ import (
 
 var once sync.Once
 
-func Test_Database_Lookup(t *testing.T) {
+func TestDatabaseLookup(t *testing.T) {
 
 	type test struct {
 		input       string
@@ -62,7 +62,7 @@ func Test_Database_Lookup(t *testing.T) {
 
 }
 
-func Test_Database_CountryCode(t *testing.T) {
+func TestDatabaseCountryCode(t *testing.T) {
 
 	type test struct {
 		input       string
@@ -109,7 +109,7 @@ func Test_Database_CountryCode(t *testing.T) {
 	}
 }
 
-func Test_Database_CountryName(t *testing.T) {
+func TestDatabaseCountryName(t *testing.T) {
 
 	type test struct {
 		input       string
@@ -156,7 +156,7 @@ func Test_Database_CountryName(t *testing.T) {
 	}
 }
 
-func Test_Database_RegionName(t *testing.T) {
+func TestDatabaseRegionName(t *testing.T) {
 
 	type test struct {
 		input       string
@@ -204,7 +204,7 @@ func Test_Database_RegionName(t *testing.T) {
 
 }
 
-func Test_Database_TimeZone(t *testing.T) {
+func TestDatabaseTimeZone(t *testing.T) {
 
 	type test struct {
 		input       string
@@ -252,7 +252,7 @@ func Test_Database_TimeZone(t *testing.T) {
 
 }
 
-func Test_Database_DatabaseWithPath_Invalid(t *testing.T) {
+func TestDatabaseDatabaseWithPath_Invalid(t *testing.T) {
 
 	db := geoip.NewDatabase("invalid-path")
 
@@ -262,7 +262,7 @@ func Test_Database_DatabaseWithPath_Invalid(t *testing.T) {
 
 }
 
-func Test_Database_Lookup_Cache(t *testing.T) {
+func TestDatabaseLookupCache(t *testing.T) {
 
 	db := openTestDatabase(t)
 	db.ClearCache()

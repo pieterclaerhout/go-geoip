@@ -8,7 +8,7 @@ import (
 	"github.com/pieterclaerhout/go-geoip"
 )
 
-func Test_CountryCodeToName(t *testing.T) {
+func TestCountryCodeToName(t *testing.T) {
 
 	type test struct {
 		input       string
@@ -42,7 +42,7 @@ func Test_CountryCodeToName(t *testing.T) {
 
 }
 
-func Test_CountryNameToCode(t *testing.T) {
+func TestCountryNameToCode(t *testing.T) {
 
 	type test struct {
 		input       string

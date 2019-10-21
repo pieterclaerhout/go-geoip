@@ -16,7 +16,7 @@ import (
 	"github.com/pieterclaerhout/go-geoip"
 )
 
-func Test_DatabaseDownloader_New(t *testing.T) {
+func TestDatabaseDownloaderNew(t *testing.T) {
 
 	dbPath := "database.mmdb"
 	timeout := 1 * time.Second
@@ -30,7 +30,7 @@ func Test_DatabaseDownloader_New(t *testing.T) {
 
 }
 
-func Test_DatabaseDownloader_LocalChecksum_NoDBFile(t *testing.T) {
+func TestDatabaseDownloaderLocalChecksumNoDBFile(t *testing.T) {
 
 	downloader := geoip.NewDatabaseDownloader("db.mmdb", 1*time.Second)
 
@@ -40,7 +40,7 @@ func Test_DatabaseDownloader_LocalChecksum_NoDBFile(t *testing.T) {
 
 }
 
-func Test_DatabaseDownloader_LocalChecksum_NoChecksumFile(t *testing.T) {
+func TestDatabaseDownloaderLocalChecksumNoChecksumFile(t *testing.T) {
 
 	defer filet.CleanUp(t)
 
@@ -56,7 +56,7 @@ func Test_DatabaseDownloader_LocalChecksum_NoChecksumFile(t *testing.T) {
 
 }
 
-func Test_DatabaseDownloader_LocalChecksum_Valid(t *testing.T) {
+func TestDatabaseDownloaderLocalChecksum_Valid(t *testing.T) {
 
 	defer filet.CleanUp(t)
 
@@ -76,12 +76,12 @@ func Test_DatabaseDownloader_LocalChecksum_Valid(t *testing.T) {
 
 }
 
-func Test_DatabaseDownloader_RemoteChecksum_Valid(t *testing.T) {
+func TestDatabaseDownloaderRemoteChecksumValid(t *testing.T) {
 
 	expected := "checksum"
 
 	s := httptest.NewServer(
-		http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
 			w.Write([]byte(expected))
 		}),
 	)
@@ -96,7 +96,7 @@ func Test_DatabaseDownloader_RemoteChecksum_Valid(t *testing.T) {
 
 }
 
-func Test_DatabaseDownloader_RemoteChecksum_InvalidURL(t *testing.T) {
+func TestDatabaseDownloaderRemoteChecksumInvalidURL(t *testing.T) {
 
 	downloader := geoip.NewDatabaseDownloader("", 5*time.Second)
 	downloader.ChecksumURL = "ht&@-tp://:aa"
@@ -107,10 +107,10 @@ func Test_DatabaseDownloader_RemoteChecksum_InvalidURL(t *testing.T) {
 
 }
 
-func Test_DatabaseDownloader_RemoteChecksum_Timeout(t *testing.T) {
+func TestDatabaseDownloaderRemoteChecksumTimeout(t *testing.T) {
 
 	s := httptest.NewServer(
-		http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
 			time.Sleep(500 * time.Millisecond)
 			w.Write([]byte("checksum"))
 		}),
@@ -126,10 +126,10 @@ func Test_DatabaseDownloader_RemoteChecksum_Timeout(t *testing.T) {
 
 }
 
-func Test_DatabaseDownloader_RemoteChecksum_ReadBodyError(t *testing.T) {
+func TestDatabaseDownloaderRemoteChecksumReadBodyError(t *testing.T) {
 
 	s := httptest.NewServer(
-		http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
 			w.Header().Set("Content-Length", "1")
 		}),
 	)
@@ -144,7 +144,7 @@ func Test_DatabaseDownloader_RemoteChecksum_ReadBodyError(t *testing.T) {
 
 }
 
-func Test_DatabaseDownloader_ShouldDownload_False(t *testing.T) {
+func TestDatabaseDownloaderShouldDownloadFalse(t *testing.T) {
 
 	defer filet.CleanUp(t)
 
@@ -157,7 +157,7 @@ func Test_DatabaseDownloader_ShouldDownload_False(t *testing.T) {
 	filet.File(t, checksumPath, expected)
 
 	s := httptest.NewServer(
-		http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
 			w.Write([]byte(expected))
 		}),
 	)
@@ -172,7 +172,7 @@ func Test_DatabaseDownloader_ShouldDownload_False(t *testing.T) {
 
 }
 
-func Test_DatabaseDownloader_ShouldDownload_True(t *testing.T) {
+func TestDatabaseDownloaderShouldDownloadTrue(t *testing.T) {
 
 	defer filet.CleanUp(t)
 
@@ -182,7 +182,7 @@ func Test_DatabaseDownloader_ShouldDownload_True(t *testing.T) {
 	filet.File(t, dbPath, expected)
 
 	s := httptest.NewServer(
-		http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
 			w.Write([]byte(expected))
 		}),
 	)
@@ -197,7 +197,7 @@ func Test_DatabaseDownloader_ShouldDownload_True(t *testing.T) {
 
 }
 
-func Test_DatabaseDownloader_Download_Valid(t *testing.T) {
+func TestDatabaseDownloaderDownloadValid(t *testing.T) {
 
 	expected := "expected"
 	checksum := "checksum"
@@ -240,9 +240,8 @@ func Test_DatabaseDownloader_Download_Valid(t *testing.T) {
 
 }
 
-func Test_DatabaseDownloader_Download_InvalidDownload(t *testing.T) {
+func TestDatabaseDownloaderDownloadInvalidDownload(t *testing.T) {
 
-	// expected := "expected"
 	checksum := "checksum"
 
 	wd, _ := os.Getwd()
@@ -278,7 +277,7 @@ func Test_DatabaseDownloader_Download_InvalidDownload(t *testing.T) {
 
 }
 
-func Test_DatabaseDownloader_Download_InvalidURL(t *testing.T) {
+func TestDatabaseDownloaderDownloadInvalidURL(t *testing.T) {
 
 	downloader := geoip.NewDatabaseDownloader("", 5*time.Second)
 	downloader.DownloadURL = "ht&@-tp://:aa"
@@ -288,10 +287,10 @@ func Test_DatabaseDownloader_Download_InvalidURL(t *testing.T) {
 
 }
 
-func Test_DatabaseDownloader_Download_Timeout(t *testing.T) {
+func TestDatabaseDownloaderDownloadTimeout(t *testing.T) {
 
 	s := httptest.NewServer(
-		http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
 			time.Sleep(500 * time.Millisecond)
 			w.Write([]byte("checksum"))
 		}),
@@ -306,10 +305,10 @@ func Test_DatabaseDownloader_Download_Timeout(t *testing.T) {
 
 }
 
-func Test_DatabaseDownloader_Download_ReadBodyError(t *testing.T) {
+func TestDatabaseDownloaderDownloadReadBodyError(t *testing.T) {
 
 	s := httptest.NewServer(
-		http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
 			w.Header().Set("Content-Length", "1")
 		}),
 	)
