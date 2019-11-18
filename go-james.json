@@ -8,7 +8,7 @@
         "main_package": "github.com/pieterclaerhout/go-geoip/cmd/geoip-server"
     },
     "build": {
-        "ouput_path": "build",
+        "output_path": "build",
         "ld_flags": [
             "-s",
             "-w"
