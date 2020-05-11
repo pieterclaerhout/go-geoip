@@ -3,9 +3,8 @@ package geoip_test
 import (
 	"testing"
 
-	"github.com/stretchr/testify/assert"
-
 	"github.com/pieterclaerhout/go-geoip"
+	"github.com/stretchr/testify/assert"
 )
 
 func TestCountryCodeToName(t *testing.T) {

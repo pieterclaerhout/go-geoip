@@ -3,9 +3,8 @@ package geoip_test
 import (
 	"testing"
 
-	"github.com/stretchr/testify/assert"
-
 	"github.com/pieterclaerhout/go-geoip"
+	"github.com/stretchr/testify/assert"
 )
 
 func TestModelContinentCode(t *testing.T) {
@@ -126,7 +125,6 @@ func TestModelSubdivisionCodes(t *testing.T) {
 		{"138.197.69.54", []string{"NJ"}, false},
 		{"5.145.169.67", []string{}, false},
 		{"170.84.87.234", []string{"PE"}, false},
-		{"116.209.59.102", []string{"HB"}, false},
 		{"invalid", []string{}, true},
 		{"", []string{}, true},
 	}
@@ -175,7 +173,6 @@ func TestModelSubdivisionNames(t *testing.T) {
 		{"138.197.69.54", []string{"New Jersey"}, false},
 		{"5.145.169.67", []string{}, false},
 		{"170.84.87.234", []string{"Pernambuco"}, false},
-		{"116.209.59.102", []string{"Hubei"}, false},
 		{"invalid", []string{}, true},
 		{"", []string{}, true},
 	}

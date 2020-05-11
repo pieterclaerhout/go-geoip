@@ -10,6 +10,9 @@ import (
 
 func main() {
 
+	log.PrintColors = true
+	log.PrintTimestamp = true
+
 	server := webserver.New()
 	server.Register(&core.Core{})
 	server.Register(&geoip.GeoIP{})

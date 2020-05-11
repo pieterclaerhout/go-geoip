@@ -7,6 +7,7 @@ import (
 	"io"
 	"io/ioutil"
 	"net/http"
+	"net/url"
 	"os"
 	"path/filepath"
 	"strings"
@@ -14,29 +15,28 @@ import (
 )
 
 // DefaultDownloadURL is the URL where to download the tgz file
-const DefaultDownloadURL = "https://geolite.maxmind.com/download/geoip/database/GeoLite2-City.tar.gz"
+const DefaultDownloadURL = "https://download.maxmind.com/app/geoip_download?suffix=tar.gz"
 
 // DefaultChecksumURL is the URL where to download the checksum file
-const DefaultChecksumURL = "https://geolite.maxmind.com/download/geoip/database/GeoLite2-City.tar.gz.md5"
+const DefaultChecksumURL = "https://download.maxmind.com/app/geoip_download?suffix=tar.gz.sha256"
 
 // DefaultChecksumExt is the default extension for the local checksum
-const DefaultChecksumExt = ".md5"
+const DefaultChecksumExt = ".sha256"
 
 // DatabaseDownloader is a struct used to download the GeoLite database from maxmind
 type DatabaseDownloader struct {
+	LicenseKey        string       // The license key to use for the downloads
 	TargetFilePath    string       // The path where to store the database
-	localChecksumPath string       // The path where the local checksum is stored, defaults to target path + ".md5"
+	localChecksumPath string       // The path where the local checksum is stored, defaults to target path + ".sha256"
 	DownloadURL       string       // The URL where to download the tgz file
 	ChecksumURL       string       // The URL where to download the remote checksum
 	httpClient        *http.Client // The HTTP client which is used to do the downloading
 }
 
 // NewDatabaseDownloader returns a new DatabaseDownloader instance configured with the default URLs
-//
-// The default URLs download the latest GeoLite2-City database from:
-// https://geolite.maxmind.com/download/geoip/database/GeoLite2-City.tar.gz.md5
-func NewDatabaseDownloader(targetFilePath string, timeout time.Duration) *DatabaseDownloader {
+func NewDatabaseDownloader(licenseKey string, targetFilePath string, timeout time.Duration) *DatabaseDownloader {
 	return &DatabaseDownloader{
+		LicenseKey:        licenseKey,
 		TargetFilePath:    targetFilePath,
 		localChecksumPath: targetFilePath + DefaultChecksumExt,
 		DownloadURL:       DefaultDownloadURL,
@@ -181,7 +181,17 @@ func (downloader *DatabaseDownloader) Download() error {
 // doRequest is a helper function to perform a GET request and return the HTTP response
 func (downloader *DatabaseDownloader) doGETRequest(urlString string) (*http.Response, error) {
 
-	req, err := http.NewRequest("GET", urlString, nil)
+	parsedURL, err := url.Parse(urlString)
+	if err != nil {
+		return nil, err
+	}
+
+	q := parsedURL.Query()
+	q.Set("edition_id", "GeoLite2-City")
+	q.Set("license_key", downloader.LicenseKey)
+	parsedURL.RawQuery = q.Encode()
+
+	req, err := http.NewRequest("GET", parsedURL.String(), nil)
 	if err != nil {
 		return nil, err
 	}
@@ -193,6 +203,10 @@ func (downloader *DatabaseDownloader) doGETRequest(urlString string) (*http.Resp
 	resp, err := downloader.httpClient.Do(req)
 	if err != nil {
 		return nil, err
+	}
+
+	if resp.StatusCode == 401 {
+		return nil, errors.New("Invalid license key")
 	}
 
 	return resp, nil

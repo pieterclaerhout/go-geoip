@@ -1,6 +1,7 @@
 package main
 
 import (
+	"os"
 	"time"
 
 	"github.com/pieterclaerhout/go-geoip"
@@ -9,9 +10,15 @@ import (
 
 func main() {
 
+	log.PrintColors = true
 	log.PrintTimestamp = true
 
-	downloader := geoip.NewDatabaseDownloader("data/database.mmdb", 1*time.Minute)
+	licenseKey := os.Getenv("LICENSE_KEY")
+	if licenseKey == "" {
+		log.Fatal("LICENSE_KEY env var not set")
+	}
+
+	downloader := geoip.NewDatabaseDownloader(licenseKey, "data/database.mmdb", 1*time.Minute)
 
 	localChecksum, err := downloader.LocalChecksum()
 	log.CheckError(err)

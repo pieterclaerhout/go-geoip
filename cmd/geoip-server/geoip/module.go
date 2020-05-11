@@ -31,9 +31,15 @@ func (module *GeoIP) Start() {
 		log.Fatal("GEOIP_DB env var not set")
 	}
 
+	licenseKey := os.Getenv("LICENSE_KEY")
+	if licenseKey == "" {
+		log.Fatal("LICENSE_KEY env var not set")
+	}
+
 	module.GeoDB = geoip.NewDatabase(dbPath)
-	module.GeoDBDownloader = geoip.NewDatabaseDownloader(dbPath, 1*time.Minute)
+	module.GeoDBDownloader = geoip.NewDatabaseDownloader(licenseKey, dbPath, 1*time.Minute)
 	log.Info("Using GeoIP db:", dbPath)
+	log.Info("Using license key:", licenseKey)
 
 	job := &DownloadGeoIPDatabaseJob{
 		GeoDBDownloader: module.GeoDBDownloader,

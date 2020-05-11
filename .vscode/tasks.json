@@ -2,7 +2,7 @@
     "Version": "2.0.0",
     "tasks": [
         {
-            "label": "build",
+            "label": "geoip: build",
             "command": "go-james build",
             "type": "shell",
             "group": "build",
@@ -11,7 +11,7 @@
             ]
         },
         {
-            "label": "build (verbose)",
+            "label": "geoip: build (verbose)",
             "command": "go-james build -v",
             "type": "shell",
             "group": "build",
@@ -20,7 +20,7 @@
             ]
         },
         {
-            "label": "clean",
+            "label": "geoip: clean",
             "command": "go-james clean",
             "type": "shell",
             "group": "build",
@@ -29,7 +29,7 @@
             ]
         },
         {
-            "label": "tests",
+            "label": "geoip: tests",
             "command": "go-james test",
             "type": "shell",
             "group": "build",
@@ -38,7 +38,7 @@
             ]
         },
         {
-            "label": "run",
+            "label": "geoip: run",
             "command": "go-james run",
             "type": "shell",
             "group": "build",
@@ -47,7 +47,7 @@
             ]
         },
         {
-            "label": "install",
+            "label": "geoip: install",
             "command": "go-james install",
             "type": "shell",
             "group": "build",
@@ -56,7 +56,7 @@
             ]
         },
         {
-            "label": "uninstall",
+            "label": "geoip: uninstall",
             "command": "go-james uninstall",
             "type": "shell",
             "group": "build",
@@ -65,8 +65,8 @@
             ]
         },
         {
-            "label": "run (debug)",
-            "command": "DEBUG=1 go-james run",
+            "label": "geoip: run (debug)",
+            "command": "DEBUG=1 go-james run -v",
             "type": "shell",
             "group": "build",
             "problemMatcher": [
