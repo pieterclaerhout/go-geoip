@@ -1,5 +1,5 @@
 ## STAGE 1 - MOD DOWNLOAD
-FROM golang:1.13.1-alpine AS mod-download
+FROM golang:1.14.2-alpine AS mod-download
 
 RUN mkdir -p /app
 
