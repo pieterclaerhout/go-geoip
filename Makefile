@@ -11,9 +11,9 @@ build-docker-image:
 
 publish-docker-image: build-docker-image
 	docker tag geoip-server pieterclaerhout/geoip-server:$(REVISION)
-	docker tag geoip-server pieterclaerhout/geoip-server:latest
 	docker push pieterclaerhout/geoip-server:$(REVISION)
-	docker push pieterclaerhout/geoip-server:latest
+	# docker tag geoip-server pieterclaerhout/geoip-server:latest
+	# docker push pieterclaerhout/geoip-server:latest
 	
 run-docker-image: build-docker-image
 	docker run --rm -p 8080:8080 geoip-server
