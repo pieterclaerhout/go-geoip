@@ -11,9 +11,8 @@ import (
 	"time"
 
 	"github.com/Flaque/filet"
-	"github.com/stretchr/testify/assert"
-
 	"github.com/pieterclaerhout/go-geoip"
+	"github.com/stretchr/testify/assert"
 )
 
 func TestDatabaseDownloaderNew(t *testing.T) {
@@ -21,7 +20,7 @@ func TestDatabaseDownloaderNew(t *testing.T) {
 	dbPath := "database.mmdb"
 	timeout := 1 * time.Second
 
-	actual := geoip.NewDatabaseDownloader(dbPath, timeout)
+	actual := geoip.NewDatabaseDownloader(os.Getenv("LICENSE_KEY"), dbPath, timeout)
 
 	assert.NotNil(t, actual, "actual")
 	assert.Equal(t, dbPath, actual.TargetFilePath)
@@ -32,7 +31,7 @@ func TestDatabaseDownloaderNew(t *testing.T) {
 
 func TestDatabaseDownloaderLocalChecksumNoDBFile(t *testing.T) {
 
-	downloader := geoip.NewDatabaseDownloader("db.mmdb", 1*time.Second)
+	downloader := geoip.NewDatabaseDownloader(os.Getenv("LICENSE_KEY"), "db.mmdb", 1*time.Second)
 
 	actual, err := downloader.LocalChecksum()
 	assert.NoError(t, err, "error")
@@ -48,7 +47,7 @@ func TestDatabaseDownloaderLocalChecksumNoChecksumFile(t *testing.T) {
 
 	filet.File(t, dbPath, "")
 
-	downloader := geoip.NewDatabaseDownloader(dbPath, 1*time.Second)
+	downloader := geoip.NewDatabaseDownloader(os.Getenv("LICENSE_KEY"), dbPath, 1*time.Second)
 
 	actual, err := downloader.LocalChecksum()
 	assert.NoError(t, err, "error")
@@ -68,7 +67,7 @@ func TestDatabaseDownloaderLocalChecksum_Valid(t *testing.T) {
 	checksumPath := dbPath + geoip.DefaultChecksumExt
 	filet.File(t, checksumPath, expected)
 
-	downloader := geoip.NewDatabaseDownloader(dbPath, 1*time.Second)
+	downloader := geoip.NewDatabaseDownloader(os.Getenv("LICENSE_KEY"), dbPath, 1*time.Second)
 
 	actual, err := downloader.LocalChecksum()
 	assert.NoError(t, err, "error")
@@ -87,7 +86,7 @@ func TestDatabaseDownloaderRemoteChecksumValid(t *testing.T) {
 	)
 	defer s.Close()
 
-	downloader := geoip.NewDatabaseDownloader("", 1*time.Second)
+	downloader := geoip.NewDatabaseDownloader(os.Getenv("LICENSE_KEY"), "", 1*time.Second)
 	downloader.ChecksumURL = s.URL
 
 	actual, err := downloader.RemoteChecksum()
@@ -98,8 +97,18 @@ func TestDatabaseDownloaderRemoteChecksumValid(t *testing.T) {
 
 func TestDatabaseDownloaderRemoteChecksumInvalidURL(t *testing.T) {
 
-	downloader := geoip.NewDatabaseDownloader("", 5*time.Second)
+	downloader := geoip.NewDatabaseDownloader(os.Getenv("LICENSE_KEY"), "", 5*time.Second)
 	downloader.ChecksumURL = "ht&@-tp://:aa"
+
+	actual, err := downloader.RemoteChecksum()
+	assert.Error(t, err)
+	assert.Empty(t, actual)
+
+}
+
+func TestDatabaseDownloaderRemoteChecksumInvalidLicenseKey(t *testing.T) {
+
+	downloader := geoip.NewDatabaseDownloader("invalid", "", 5*time.Second)
 
 	actual, err := downloader.RemoteChecksum()
 	assert.Error(t, err)
@@ -117,7 +126,7 @@ func TestDatabaseDownloaderRemoteChecksumTimeout(t *testing.T) {
 	)
 	defer s.Close()
 
-	downloader := geoip.NewDatabaseDownloader("", 250*time.Millisecond)
+	downloader := geoip.NewDatabaseDownloader(os.Getenv("LICENSE_KEY"), "", 250*time.Millisecond)
 	downloader.ChecksumURL = s.URL
 
 	actual, err := downloader.RemoteChecksum()
@@ -135,7 +144,7 @@ func TestDatabaseDownloaderRemoteChecksumReadBodyError(t *testing.T) {
 	)
 	defer s.Close()
 
-	downloader := geoip.NewDatabaseDownloader("", 1*time.Second)
+	downloader := geoip.NewDatabaseDownloader(os.Getenv("LICENSE_KEY"), "", 1*time.Second)
 	downloader.ChecksumURL = s.URL
 
 	actual, err := downloader.RemoteChecksum()
@@ -163,7 +172,7 @@ func TestDatabaseDownloaderShouldDownloadFalse(t *testing.T) {
 	)
 	defer s.Close()
 
-	downloader := geoip.NewDatabaseDownloader(dbPath, 1*time.Second)
+	downloader := geoip.NewDatabaseDownloader(os.Getenv("LICENSE_KEY"), dbPath, 1*time.Second)
 	downloader.ChecksumURL = s.URL
 
 	actual, err := downloader.ShouldDownload()
@@ -188,7 +197,7 @@ func TestDatabaseDownloaderShouldDownloadTrue(t *testing.T) {
 	)
 	defer s.Close()
 
-	downloader := geoip.NewDatabaseDownloader(dbPath, 1*time.Second)
+	downloader := geoip.NewDatabaseDownloader(os.Getenv("LICENSE_KEY"), dbPath, 1*time.Second)
 	downloader.ChecksumURL = s.URL
 
 	actual, err := downloader.ShouldDownload()
@@ -225,7 +234,7 @@ func TestDatabaseDownloaderDownloadValid(t *testing.T) {
 	)
 	defer s.Close()
 
-	downloader := geoip.NewDatabaseDownloader(dbPath, 1*time.Second)
+	downloader := geoip.NewDatabaseDownloader(os.Getenv("LICENSE_KEY"), dbPath, 1*time.Second)
 	downloader.DownloadURL = s.URL + "/validdb.tgz"
 	downloader.ChecksumURL = downloader.DownloadURL + geoip.DefaultChecksumExt
 
@@ -267,7 +276,7 @@ func TestDatabaseDownloaderDownloadInvalidDownload(t *testing.T) {
 	)
 	defer s.Close()
 
-	downloader := geoip.NewDatabaseDownloader(dbPath, 1*time.Second)
+	downloader := geoip.NewDatabaseDownloader(os.Getenv("LICENSE_KEY"), dbPath, 1*time.Second)
 	downloader.DownloadURL = s.URL + "/invaliddb.tgz"
 	downloader.ChecksumURL = downloader.DownloadURL + geoip.DefaultChecksumExt
 
@@ -279,7 +288,7 @@ func TestDatabaseDownloaderDownloadInvalidDownload(t *testing.T) {
 
 func TestDatabaseDownloaderDownloadInvalidURL(t *testing.T) {
 
-	downloader := geoip.NewDatabaseDownloader("", 5*time.Second)
+	downloader := geoip.NewDatabaseDownloader(os.Getenv("LICENSE_KEY"), "", 5*time.Second)
 	downloader.DownloadURL = "ht&@-tp://:aa"
 
 	err := downloader.Download()
@@ -297,7 +306,7 @@ func TestDatabaseDownloaderDownloadTimeout(t *testing.T) {
 	)
 	defer s.Close()
 
-	downloader := geoip.NewDatabaseDownloader("", 250*time.Millisecond)
+	downloader := geoip.NewDatabaseDownloader(os.Getenv("LICENSE_KEY"), "", 250*time.Millisecond)
 	downloader.DownloadURL = s.URL
 
 	err := downloader.Download()
@@ -314,7 +323,7 @@ func TestDatabaseDownloaderDownloadReadBodyError(t *testing.T) {
 	)
 	defer s.Close()
 
-	downloader := geoip.NewDatabaseDownloader("", 1*time.Second)
+	downloader := geoip.NewDatabaseDownloader(os.Getenv("LICENSE_KEY"), "", 1*time.Second)
 	downloader.DownloadURL = s.URL
 
 	err := downloader.Download()

@@ -7,9 +7,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/stretchr/testify/assert"
-
 	"github.com/pieterclaerhout/go-geoip"
+	"github.com/stretchr/testify/assert"
 )
 
 var once sync.Once
@@ -299,7 +298,7 @@ func openTestDatabase(t *testing.T) *geoip.Database {
 
 		os.Remove(path)
 
-		downloader := geoip.NewDatabaseDownloader(path, 1*time.Minute)
+		downloader := geoip.NewDatabaseDownloader(os.Getenv("LICENSE_KEY"), path, 1*time.Minute)
 		if err := downloader.Download(); err != nil {
 			t.Fatal("Failed to download test database")
 		}

@@ -1,7 +1,7 @@
 {
     "project": {
         "name": "go-geoip",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "description": "",
         "copyright": "",
         "package": "github.com/pieterclaerhout/go-geoip",
@@ -16,6 +16,12 @@
         "extra_args": [
             "-trimpath"
         ]
+    },
+    "run": {
+        "environ": {
+            "GEOIP_DB": "GeoLite2-City.mmdb",
+            "LICENSE_KEY": "test"
+        }
     },
     "package": {
         "include_readme": true
