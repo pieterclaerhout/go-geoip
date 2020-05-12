@@ -26,6 +26,20 @@ func TestClientLookup(t *testing.T) {
 
 }
 
+func TestClientLookupInvalid(t *testing.T) {
+
+	s := testServer(t)
+	defer s.Close()
+
+	client := geoip.NewClient(s.URL, 5*time.Second)
+
+	actual, err := client.Lookup("invalid")
+
+	assert.Error(t, err)
+	assert.Nil(t, actual)
+
+}
+
 func TestClientLookupInvalidURL(t *testing.T) {
 
 	client := geoip.NewClient("ht&@-tp://:aa", 5*time.Second)
@@ -221,8 +235,12 @@ func TestClientTimeZoneInvalid(t *testing.T) {
 func testServer(t *testing.T) *httptest.Server {
 	t.Helper()
 	return httptest.NewServer(
-		http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
+		http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 			w.Header().Set("Content-Type", "application/json")
+			if r.URL.Query().Get("ip") == "invalid" {
+				w.Write([]byte(`{"error": "invalid ip address"}`))
+				return
+			}
 			w.Write([]byte(`{
 				"IPAddress": "1.1.1.1",
 				"Continent": {

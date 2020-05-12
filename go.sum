@@ -46,6 +46,7 @@ github.com/pieterclaerhout/go-log v1.0.3 h1:Z3cm1nSq/atroK3PcL4Te6gIOZek6GXG+W8G
 github.com/pieterclaerhout/go-log v1.0.3/go.mod h1:qhAf0/tt5vau3o/b8dFwri6j9o93u2sk7erGuFgHtH0=
 github.com/pieterclaerhout/go-log v1.0.9 h1:FcdCNmPZqEEip/NDbOFcHfkpIBYPXDioWaoEoiQCiDs=
 github.com/pieterclaerhout/go-log v1.0.9/go.mod h1:f9Mmn7P1JfpN3gdhmzqRbKC+kHhcxrHkgtmK9xtO9Ww=
+github.com/pieterclaerhout/go-log v1.10.0/go.mod h1:f9Mmn7P1JfpN3gdhmzqRbKC+kHhcxrHkgtmK9xtO9Ww=
 github.com/pieterclaerhout/go-webserver v0.0.0-20191011131557-96ed1a72e810 h1:rG37rDODU9QS244TpE6SYK7Fgvl63P9ZHPXjmnb4Qz0=
 github.com/pieterclaerhout/go-webserver v0.0.0-20191011131557-96ed1a72e810/go.mod h1:5//OqT468WyTff4OiIOamvCyCORvGqJ+82frpUJ2l1k=
 github.com/pieterclaerhout/go-webserver v1.0.0 h1:LuGj2L8x1QouzrQoji8J4SNafuh0RtaqG3FOMVF39zE=

@@ -2,6 +2,7 @@ package geoip
 
 import (
 	"encoding/json"
+	"errors"
 	"io/ioutil"
 	"net/http"
 	"net/url"
@@ -32,6 +33,10 @@ func (client *Client) ClearCache() {
 // Lookup returns the full country information for a specific IP address
 func (client *Client) Lookup(ipaddress string) (*IPLocation, error) {
 
+	type ErrorResponse struct {
+		Error string `json:"error"`
+	}
+
 	if location, cached := client.lookupCache[ipaddress]; cached {
 		location.IsCached = true
 		return location, nil
@@ -54,6 +59,15 @@ func (client *Client) Lookup(ipaddress string) (*IPLocation, error) {
 	rawData, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
 		return nil, err
+	}
+
+	var errResponse ErrorResponse
+	if err := json.Unmarshal(rawData, &errResponse); err != nil {
+		return nil, err
+	}
+
+	if errResponse.Error != "" {
+		return nil, errors.New(errResponse.Error)
 	}
 
 	var location *IPLocation
