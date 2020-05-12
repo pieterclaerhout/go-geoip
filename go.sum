@@ -35,7 +35,9 @@ github.com/pieterclaerhout/go-formatter v1.0.2 h1:/dGd9L64vwx3XvKWVRjoy5s1klxsdb
 github.com/pieterclaerhout/go-formatter v1.0.2/go.mod h1:1okQQFUwXCLGTWXoWoh3OGchp3i7KeebwIx/ufmsjks=
 github.com/pieterclaerhout/go-geoip v0.0.0-20191011130502-d7acb335fdaf/go.mod h1:oITkJydloz8WH1RJJoqWlEdk3jsvrWmOeac0nx7vaJM=
 github.com/pieterclaerhout/go-geoip v1.0.1/go.mod h1:1lVzUu+5nKCG4EoeRawkOMQinZMXgu7veUG8tS5ZxMo=
+github.com/pieterclaerhout/go-geoip v1.1.0/go.mod h1:sP4Oy99FN+BIjKTD4SbuSmHHX7mlzOdLgtv+z1GLCcc=
 github.com/pieterclaerhout/go-html v0.0.0-20191004144412-226526d57527/go.mod h1:5G1W6ElVuCTXJHjLJiLyFUfXZ8losLCNM7BXcHgLBRQ=
+github.com/pieterclaerhout/go-html v0.0.1/go.mod h1:5G1W6ElVuCTXJHjLJiLyFUfXZ8losLCNM7BXcHgLBRQ=
 github.com/pieterclaerhout/go-log v1.0.1 h1:MafIGXKdDopO/wfwc4QzkWdETrk7BnoVpXs3picnSX4=
 github.com/pieterclaerhout/go-log v1.0.1/go.mod h1:qhAf0/tt5vau3o/b8dFwri6j9o93u2sk7erGuFgHtH0=
 github.com/pieterclaerhout/go-log v1.0.2 h1:J0LTEFsY2XZsljoFm322sofNknxGnM/qK+VvnWIDNMI=
@@ -54,6 +56,8 @@ github.com/pieterclaerhout/go-webserver v1.0.3 h1:+XhD0eGjUJVDnjgXOBcLbzIHlkzERL
 github.com/pieterclaerhout/go-webserver v1.0.3/go.mod h1:blw+e2kDM8LMR6zXphNnDRtzBZxwQ5JxluK7fxbgY+k=
 github.com/pieterclaerhout/go-webserver v1.0.5 h1:+kmUxRRrELeuzaggYOMOScuwtieTaEEhq0It6TBiX7s=
 github.com/pieterclaerhout/go-webserver v1.0.5/go.mod h1:blw+e2kDM8LMR6zXphNnDRtzBZxwQ5JxluK7fxbgY+k=
+github.com/pieterclaerhout/go-webserver v1.0.6 h1:3GHo+VAXKpfIh7gmHNMQcggkqE1evV6zVxWfhFA16SI=
+github.com/pieterclaerhout/go-webserver v1.0.6/go.mod h1:d5YHyFypWDt3Pp9AY3zUVXx8Exw6Dx3Es2vx8/T25kA=
 github.com/pieterclaerhout/go-xray v1.0.2 h1:/+lZGF/maR4o2/1j87yI74n61tBjNe2YI/DRFgZlOAM=
 github.com/pieterclaerhout/go-xray v1.0.2/go.mod h1:CyzvayUrh9qYuXG6Qs+mQ6QVGmhKRVoJwZxA8tcE1cw=
 github.com/pkg/errors v0.8.1 h1:iURUrRGxPUNPdy5/HRSm+Yj6okJ6UtLINN0Q9M4+h3I=
@@ -64,6 +68,8 @@ github.com/pmezard/go-difflib v1.0.0 h1:4DBwDE0NGyQoBHbLQYPwSUPoCMWR5BEzIk/f1lZb
 github.com/pmezard/go-difflib v1.0.0/go.mod h1:iKH77koFhYxTK1pcRnkKkqfTogsbg7gZNVY4sRDYZ/4=
 github.com/robfig/cron/v3 v3.0.0 h1:kQ6Cb7aHOHTSzNVNEhmp8EcWKLb4CbiMW9h9VyIhO4E=
 github.com/robfig/cron/v3 v3.0.0/go.mod h1:eQICP3HwyT7UooqI/z+Ov+PtYAWygg1TEWWzGIFLtro=
+github.com/robfig/cron/v3 v3.0.1 h1:WdRxkvbJztn8LMz/QEvLN5sBU+xKpSqwwUO1Pjr4qDs=
+github.com/robfig/cron/v3 v3.0.1/go.mod h1:eQICP3HwyT7UooqI/z+Ov+PtYAWygg1TEWWzGIFLtro=
 github.com/sanity-io/litter v1.1.0 h1:BllcKWa3VbZmOZbDCoszYLk7zCsKHz5Beossi8SUcTc=
 github.com/sanity-io/litter v1.1.0/go.mod h1:CJ0VCw2q4qKU7LaQr3n7UOSHzgEMgcGco7N/SkZQPjw=
 github.com/scorredoira/email v0.0.0-20190509221456-365bb6a9fa0c h1:M7frN7IWpD1LpWgfnqFF+YFswJmF2akfO0dPStawPzE=
