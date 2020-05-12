@@ -19,8 +19,7 @@
     },
     "run": {
         "environ": {
-            "GEOIP_DB": "GeoLite2-City.mmdb",
-            "LICENSE_KEY": "test"
+            "GEOIP_DB": "GeoLite2-City.mmdb"
         }
     },
     "package": {
