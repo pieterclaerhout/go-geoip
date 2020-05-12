@@ -8,7 +8,7 @@
 
 This is a wrapper around the GeoIP databases from [MaxMind](https://www.maxmind.com/en/home).
 
-It also has a web API which automatically keeps the GeoIP database up-to-date.
+It also has a web API which automatically keeps the GeoIP database up-to-date. This is a very handy tool when you use e.g. a microservice approach and you don't want to keep a copy of the database for each microservice which needs GeoIP capabilities. By using the server approach, you can keep this functionality in a central place.
 
 ## Building
 
@@ -25,7 +25,7 @@ make build-docker-image
 ## Running manually
 
 ```
-PORT=8080 GEOIP_DB=testdata/GeoLite2-City.mmdb ./geoip-server
+PORT=8080 GEOIP_DB=testdata/GeoLite2-City.mmdb LICENSE_KEY=license ./geoip-server
 ```
 
 ## Running via docker
@@ -104,3 +104,15 @@ func main() {
 
 }
 ```
+
+## About the license key
+
+To run the GeoIP server and use the automatic database download, you need to obtain a license key from MaxMind as explained [here](https://blog.maxmind.com/2019/12/18/significant-changes-to-accessing-and-using-geolite2-databases/).
+
+It's an easy and straightforward process:
+
+1. [Sign up for a MaxMind account](https://www.maxmind.com/en/geolite2/signup) (no purchase required)
+
+2. Set your password and create a [license key](https://www.maxmind.com/en/accounts/current/license-key)
+
+3. Use the environment variable `LICENSE_KEY` to set the license key which needs to be used.
