@@ -37,7 +37,7 @@ func TestModelContinentCode(t *testing.T) {
 
 		t.Run(tc.input, func(t *testing.T) {
 
-			db.ClearCache()
+			// db.ClearCache()
 
 			info, err := db.Lookup(tc.input)
 
@@ -87,7 +87,7 @@ func TestModelContinentName(t *testing.T) {
 
 		t.Run(tc.input, func(t *testing.T) {
 
-			db.ClearCache()
+			// db.ClearCache()
 
 			info, err := db.Lookup(tc.input)
 			actual := info.ContinentName()
@@ -135,7 +135,7 @@ func TestModelSubdivisionCodes(t *testing.T) {
 
 		t.Run(tc.input, func(t *testing.T) {
 
-			db.ClearCache()
+			// db.ClearCache()
 
 			info, err := db.Lookup(tc.input)
 			actual := info.SubdivisionCodes()
@@ -183,7 +183,7 @@ func TestModelSubdivisionNames(t *testing.T) {
 
 		t.Run(tc.input, func(t *testing.T) {
 
-			db.ClearCache()
+			// db.ClearCache()
 
 			info, err := db.Lookup(tc.input)
 			actual := info.SubdivisionNames()
@@ -231,7 +231,7 @@ func TestModelApproximateGPSCoordinate(t *testing.T) {
 
 		t.Run(tc.input, func(t *testing.T) {
 
-			db.ClearCache()
+			// db.ClearCache()
 
 			info, err := db.Lookup(tc.input)
 			actual := info.ApproximateGPSCoordinate()

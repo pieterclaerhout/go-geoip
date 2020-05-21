@@ -37,7 +37,7 @@ type IPLocation struct {
 	Country      *Country       `maxminddb:"country"`
 	Location     *Location      `maxminddb:"location"`
 	Subdivisions []*Subdivision `maxminddb:"subdivisions"`
-	IsCached     bool
+	// IsCached     bool
 }
 
 // CountryCode returns the ISO country code for the location

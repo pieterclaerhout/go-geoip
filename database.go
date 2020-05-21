@@ -9,30 +9,30 @@ import (
 
 // Database is the main wrapper around the MaxMind GeoIP database
 type Database struct {
-	path        string
-	lookupCache map[string]*IPLocation
+	path string
+	// lookupCache map[string]*IPLocation
 }
 
 // NewDatabase returns a new Database instance with the given database path
 func NewDatabase(path string) *Database {
 	return &Database{
-		path:        path,
-		lookupCache: map[string]*IPLocation{},
+		path: path,
+		// lookupCache: map[string]*IPLocation{},
 	}
 }
 
-// ClearCache clears the cache for the lookups
-func (database *Database) ClearCache() {
-	database.lookupCache = map[string]*IPLocation{}
-}
+// // ClearCache clears the cache for the lookups
+// func (database *Database) ClearCache() {
+// 	database.lookupCache = map[string]*IPLocation{}
+// }
 
 // Lookup returns the full country information for a specific IP address
 func (database *Database) Lookup(ipaddress string) (*IPLocation, error) {
 
-	if location, cached := database.lookupCache[ipaddress]; cached {
-		location.IsCached = true
-		return location, nil
-	}
+	// if location, cached := database.lookupCache[ipaddress]; cached {
+	// 	location.IsCached = true
+	// 	return location, nil
+	// }
 
 	var location *IPLocation
 	var record interface{}
@@ -57,9 +57,9 @@ func (database *Database) Lookup(ipaddress string) (*IPLocation, error) {
 	}
 
 	location.IPAddress = ipaddress
-	location.IsCached = false
+	// location.IsCached = false
 
-	database.lookupCache[ipaddress] = location
+	// database.lookupCache[ipaddress] = location
 
 	return location, nil
 

@@ -11,24 +11,24 @@ import (
 
 // Client is used to get the results from the server API
 type Client struct {
-	url         string
-	timeout     time.Duration
-	lookupCache map[string]*IPLocation
+	url     string
+	timeout time.Duration
+	// lookupCache map[string]*IPLocation
 }
 
 // NewClient returns a new Client instance with the given URL
 func NewClient(url string, timeout time.Duration) *Client {
 	return &Client{
-		url:         url,
-		timeout:     timeout,
-		lookupCache: map[string]*IPLocation{},
+		url:     url,
+		timeout: timeout,
+		// lookupCache: map[string]*IPLocation{},
 	}
 }
 
-// ClearCache clears the cache for the lookups
-func (client *Client) ClearCache() {
-	client.lookupCache = map[string]*IPLocation{}
-}
+// // ClearCache clears the cache for the lookups
+// func (client *Client) ClearCache() {
+// 	client.lookupCache = map[string]*IPLocation{}
+// }
 
 // Lookup returns the full country information for a specific IP address
 func (client *Client) Lookup(ipaddress string) (*IPLocation, error) {
@@ -37,10 +37,10 @@ func (client *Client) Lookup(ipaddress string) (*IPLocation, error) {
 		Error string `json:"error"`
 	}
 
-	if location, cached := client.lookupCache[ipaddress]; cached {
-		location.IsCached = true
-		return location, nil
-	}
+	// if location, cached := client.lookupCache[ipaddress]; cached {
+	// 	location.IsCached = true
+	// 	return location, nil
+	// }
 
 	params := url.Values{}
 	params.Add("ip", ipaddress)
@@ -75,9 +75,9 @@ func (client *Client) Lookup(ipaddress string) (*IPLocation, error) {
 		return nil, err
 	}
 
-	location.IsCached = false
+	// location.IsCached = false
 
-	client.lookupCache[ipaddress] = location
+	// client.lookupCache[ipaddress] = location
 
 	return location, nil
 
