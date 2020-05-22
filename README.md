@@ -87,7 +87,8 @@ import (
     "fmt"
     "os"
     "time"
-    "github.com/pieterclaerhout/go-geoip"
+    
+    geoip "github.com/pieterclaerhout/go-geoip/v2"
 )
 
 func main() {

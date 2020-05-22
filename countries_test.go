@@ -3,7 +3,7 @@ package geoip_test
 import (
 	"testing"
 
-	"github.com/pieterclaerhout/go-geoip"
+	"github.com/pieterclaerhout/go-geoip/v2"
 	"github.com/stretchr/testify/assert"
 )
 

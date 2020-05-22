@@ -5,7 +5,7 @@ import (
 	"path/filepath"
 
 	"github.com/joho/godotenv"
-	"github.com/pieterclaerhout/go-geoip/serverapp"
+	"github.com/pieterclaerhout/go-geoip/v2/serverapp"
 	"github.com/pieterclaerhout/go-log"
 	webserver "github.com/pieterclaerhout/go-webserver/v2"
 )

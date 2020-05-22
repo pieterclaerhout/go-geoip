@@ -5,7 +5,7 @@ import (
 	"time"
 
 	"github.com/go-chi/chi"
-	"github.com/pieterclaerhout/go-geoip"
+	"github.com/pieterclaerhout/go-geoip/v2"
 	"github.com/pieterclaerhout/go-log"
 	"github.com/pieterclaerhout/go-webserver/v2"
 )
@@ -31,6 +31,7 @@ func New() webserver.App {
 	}
 
 	updaterJob := dbUpdaterJob{
+		db:         db,
 		downloader: geoip.NewDatabaseDownloader(licenseKey, dbPath, 10*time.Second),
 		interval:   interval,
 	}

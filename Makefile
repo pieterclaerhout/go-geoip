@@ -4,10 +4,10 @@ init:
 	@mkdir -p build
 
 build-server: init
-	@go build -trimpath -ldflags "-s -w" -o build/geoip-server github.com/pieterclaerhout/go-geoip/cmd/geoip-server
+	@go build -trimpath -ldflags "-s -w" -o build/geoip-server github.com/pieterclaerhout/go-geoip/v2/cmd/geoip-server
 
 build-db-downloader: init
-	@go build -trimpath -ldflags "-s -w" -o build/db-downloader github.com/pieterclaerhout/go-geoip/cmd/db-downloader
+	@go build -trimpath -ldflags "-s -w" -o build/db-downloader github.com/pieterclaerhout/go-geoip/v2/cmd/db-downloader
 
 build-docker-image:
 	docker build -t geoip-server .

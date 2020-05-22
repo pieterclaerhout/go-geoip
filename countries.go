@@ -312,7 +312,6 @@ func CountryNameToCode(name string) (string, error) {
 	return "", errors.New("Unknown country name: " + name)
 }
 
-
 // sliceContainsString checks if the slice contains the given string in a case-sensitive way
 func sliceContainsString(slice []string, item string) bool {
 	set := make(map[string]struct{}, len(slice))

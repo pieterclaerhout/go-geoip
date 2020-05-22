@@ -11,7 +11,7 @@ import (
 	"time"
 
 	"github.com/Flaque/filet"
-	"github.com/pieterclaerhout/go-geoip"
+	"github.com/pieterclaerhout/go-geoip/v2"
 	"github.com/stretchr/testify/assert"
 )
 

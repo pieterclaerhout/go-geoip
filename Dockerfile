@@ -16,7 +16,7 @@ FROM mod-download AS builder
 ADD . /app
 WORKDIR /app
 
-RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -trimpath -a --ldflags '-extldflags -static' -o geoip-server github.com/pieterclaerhout/go-geoip/cmd/geoip-server
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -trimpath -a --ldflags '-extldflags -static' -o geoip-server github.com/pieterclaerhout/go-geoip/v2/cmd/geoip-server
 
 # STAGE 3 - FINAL
 

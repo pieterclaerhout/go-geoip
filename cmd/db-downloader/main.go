@@ -4,7 +4,7 @@ import (
 	"os"
 	"time"
 
-	"github.com/pieterclaerhout/go-geoip"
+	"github.com/pieterclaerhout/go-geoip/v2"
 	"github.com/pieterclaerhout/go-log"
 )
 

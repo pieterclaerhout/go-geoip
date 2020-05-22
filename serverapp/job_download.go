@@ -3,11 +3,12 @@ package serverapp
 import (
 	"time"
 
-	"github.com/pieterclaerhout/go-geoip"
+	"github.com/pieterclaerhout/go-geoip/v2"
 	"github.com/pieterclaerhout/go-log"
 )
 
 type dbUpdaterJob struct {
+	db         *geoip.Database
 	downloader *geoip.DatabaseDownloader
 	interval   time.Duration
 }
@@ -56,6 +57,8 @@ func (j dbUpdaterJob) downloadDBIfNeeded() error {
 	}
 
 	log.Info("Database downloaded succesfully")
+
+	j.db.ClearCache()
 
 	return nil
 
