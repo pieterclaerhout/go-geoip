@@ -1,10 +1,13 @@
 REVISION := $(shell git rev-parse --short HEAD)
 
-build-server:
-	@go build -trimpath -ldflags "-s -w" -o geoip-server github.com/pieterclaerhout/go-geoip/cmd/geoip-server
+init:
+	@mkdir -p build
 
-build-db-downloader:
-	@go build -trimpath -ldflags "-s -w" -o db-downloader github.com/pieterclaerhout/go-geoip/cmd/db-downloader
+build-server: init
+	@go build -trimpath -ldflags "-s -w" -o build/geoip-server github.com/pieterclaerhout/go-geoip/cmd/geoip-server
+
+build-db-downloader: init
+	@go build -trimpath -ldflags "-s -w" -o build/db-downloader github.com/pieterclaerhout/go-geoip/cmd/db-downloader
 
 build-docker-image:
 	docker build -t geoip-server .

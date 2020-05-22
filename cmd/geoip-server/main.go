@@ -5,26 +5,27 @@ import (
 	"path/filepath"
 
 	"github.com/joho/godotenv"
-	"github.com/pieterclaerhout/go-geoip/cmd/geoip-server/core"
-	"github.com/pieterclaerhout/go-geoip/cmd/geoip-server/geoip"
+	"github.com/pieterclaerhout/go-geoip/serverapp"
 	"github.com/pieterclaerhout/go-log"
-	"github.com/pieterclaerhout/go-webserver"
+	webserver "github.com/pieterclaerhout/go-webserver/v2"
 )
 
 func main() {
 
+	// Setup logging
 	log.PrintColors = true
 	log.PrintTimestamp = true
+	log.DebugMode = (os.Getenv("DEBUG") == "1")
 
+	// Load the .env file
 	wd, _ := os.Getwd()
 	envPath := filepath.Join(wd, ".env")
 	godotenv.Load(envPath)
 
-	server := webserver.New()
-	server.Register(&core.Core{})
-	server.Register(&geoip.GeoIP{})
-
-	err := server.Start()
+	// Run the app with the server
+	err := webserver.New().RunWithApps(
+		serverapp.New(),
+	)
 	log.CheckError(err)
 
 }

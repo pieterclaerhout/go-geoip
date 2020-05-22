@@ -20,7 +20,7 @@ RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -trimpath -a --ldflags '-extl
 
 # STAGE 3 - FINAL
 
-FROM alpine:latest 
+FROM alpine:3.11 
 
 RUN apk --no-cache add ca-certificates tzdata
 
