@@ -53,6 +53,7 @@ func (a *serverApp) Name() string {
 func (a *serverApp) Register(r *chi.Mux) {
 
 	r.Get("/lookup", a.handleLookup())
+	r.Post("/lookup", a.handleLookup())
 
 	r.NotFound(a.handleNotFound())
 	r.MethodNotAllowed(a.handleMethodNotAllowed())
