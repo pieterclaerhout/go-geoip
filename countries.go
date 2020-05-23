@@ -280,7 +280,7 @@ func init() {
 // CountryCodeToName translates an ISO country to the English name
 func CountryCodeToName(code string) (string, error) {
 	for countryCode, countryName := range countryCodes {
-		if strings.ToLower(code) == strings.ToLower(countryCode) {
+		if strings.EqualFold(code, countryCode) {
 			return countryName, nil
 		}
 	}
@@ -305,7 +305,7 @@ func CountryCodeToRegion(code string) string {
 // CountryNameToCode translates the country name to it's ISO country code
 func CountryNameToCode(name string) (string, error) {
 	for countryCode, countryName := range countryCodes {
-		if strings.ToLower(name) == strings.ToLower(countryName) {
+		if strings.EqualFold(name, countryName) {
 			return countryCode, nil
 		}
 	}

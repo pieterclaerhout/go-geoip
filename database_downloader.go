@@ -123,7 +123,7 @@ func (downloader *DatabaseDownloader) Download() error {
 
 	foundFile := false
 
-	for true {
+	for {
 
 		header, err := tarReader.Next()
 
