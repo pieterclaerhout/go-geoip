@@ -25,6 +25,8 @@ func NewDatabase(path string) *Database {
 
 // ClearCache clears the cache for the lookups
 func (database *Database) ClearCache() {
+	database.lookupCacheMutex.Lock()
+	defer database.lookupCacheMutex.Unlock()
 	database.lookupCache = map[string]*IPLocation{}
 }
 
