@@ -14,7 +14,8 @@
             "-w"
         ],
         "extra_args": [
-            "-trimpath"
+            "-trimpath",
+            "-race"
         ]
     },
     "run": {
