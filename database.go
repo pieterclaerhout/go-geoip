@@ -48,9 +48,11 @@ func (database *Database) Lookup(ipaddress string) (*IPLocation, error) {
 	defer db.Close()
 
 	ip := net.ParseIP(ipaddress)
+	if ip == nil {
+		return nil, errors.New("Invalid IP address")
+	}
 
-	err = db.Lookup(ip, &location)
-	if err != nil {
+	if err := db.Lookup(ip, &location); err != nil {
 		return location, err
 	}
 
