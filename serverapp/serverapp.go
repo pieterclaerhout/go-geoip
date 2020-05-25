@@ -36,6 +36,9 @@ func New() webserver.App {
 		interval:   interval,
 	}
 
+	err := updaterJob.downloadDBIfNeeded()
+	log.CheckError(err)
+
 	go updaterJob.run()
 
 	return &serverApp{
