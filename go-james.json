@@ -1,7 +1,7 @@
 {
     "project": {
         "name": "go-geoip",
-        "version": "1.1.0",
+        "version": "2.0.5",
         "description": "",
         "copyright": "",
         "package": "github.com/pieterclaerhout/go-geoip/v2",
@@ -28,5 +28,10 @@
     },
     "test": {
         "extra_args": []
+    },
+    "docker-image": {
+        "name": "geoip-server",
+        "repository": "pieterclaerhout/geoip-server",
+        "tag": "version"
     }
 }
