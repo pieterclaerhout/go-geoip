@@ -10,7 +10,8 @@ build-db-downloader: init
 	@go build -trimpath -ldflags "-s -w" -o build/db-downloader github.com/pieterclaerhout/go-geoip/v2/cmd/db-downloader
 
 build-docker-image:
-	go-james docker-image
+	docker build -t geoip-server .
+	# go-james docker-image
 
 publish-docker-image: build-docker-image
 	docker tag geoip-server pieterclaerhout/geoip-server:$(REVISION)
