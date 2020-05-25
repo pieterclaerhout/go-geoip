@@ -1,7 +1,6 @@
 package geoip
 
 import (
-	"net"
 	"sync"
 
 	"github.com/oschwald/maxminddb-golang"
@@ -47,9 +46,12 @@ func (database *Database) Lookup(ipaddress string) (*IPLocation, error) {
 	}
 	defer db.Close()
 
-	ip := net.ParseIP(ipaddress)
-	if ip == nil {
-		return nil, errors.New("Invalid IP address")
+	ip, private, err := isPrivateIP(ipaddress)
+	if err != nil {
+		return nil, err
+	}
+	if private {
+		return nil, nil
 	}
 
 	if err := db.Lookup(ip, &location); err != nil {
@@ -79,6 +81,9 @@ func (database *Database) CountryCode(ipaddress string) (string, error) {
 	if err != nil {
 		return "", err
 	}
+	if location == nil {
+		return "", nil
+	}
 	return location.CountryCode(), nil
 }
 
@@ -87,6 +92,9 @@ func (database *Database) CountryName(ipaddress string) (string, error) {
 	location, err := database.Lookup(ipaddress)
 	if err != nil {
 		return "", err
+	}
+	if location == nil {
+		return "", nil
 	}
 	return location.CountryName(), nil
 }
@@ -104,6 +112,9 @@ func (database *Database) RegionName(ipaddress string) (string, error) {
 	if err != nil {
 		return "", err
 	}
+	if location == nil {
+		return "", nil
+	}
 	return location.RegionName(), nil
 }
 
@@ -112,6 +123,9 @@ func (database *Database) TimeZone(ipaddress string) (string, error) {
 	location, err := database.Lookup(ipaddress)
 	if err != nil {
 		return "", err
+	}
+	if location == nil {
+		return "", nil
 	}
 	return location.TimeZone(), nil
 }

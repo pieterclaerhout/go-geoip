@@ -81,6 +81,7 @@ func TestDatabaseCountryCode(t *testing.T) {
 		{"5.145.169.67", "ES", false},
 		{"170.84.87.234", "BR", false},
 		{"116.209.59.102", "CN", false},
+		{"192.168.0.1", "", false},
 		{"invalid", "", true},
 		{"", "", true},
 	}
@@ -128,6 +129,7 @@ func TestDatabaseCountryName(t *testing.T) {
 		{"5.145.169.67", "Spain", false},
 		{"170.84.87.234", "Brazil", false},
 		{"116.209.59.102", "China", false},
+		{"192.168.0.1", "", false},
 		{"invalid", "", true},
 		{"", "", true},
 	}
@@ -175,6 +177,7 @@ func TestDatabaseRegionName(t *testing.T) {
 		{"5.145.169.67", "west-europe", false},
 		{"170.84.87.234", "south-brazil", false},
 		{"116.209.59.102", "southeast-asia", false},
+		{"192.168.0.1", "", false},
 		{"invalid", "", true},
 		{"", "", true},
 	}
@@ -223,6 +226,7 @@ func TestDatabaseTimeZone(t *testing.T) {
 		{"5.145.169.67", "Europe/Madrid", false},
 		{"170.84.87.234", "America/Recife", false},
 		{"116.209.59.102", "Asia/Shanghai", false},
+		{"192.168.0.1", "", false},
 		{"invalid", "", true},
 		{"", "", true},
 	}
