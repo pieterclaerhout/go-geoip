@@ -26,6 +26,22 @@ func TestClientLookup(t *testing.T) {
 
 }
 
+func TestClientLookupInternal(t *testing.T) {
+
+	s := testServer(t)
+	defer s.Close()
+
+	client := geoip.NewClient(s.URL, 5*time.Second)
+
+	actual, err := client.Lookup("192.168.0.1")
+
+	assert.NoError(t, err)
+	assert.NotNil(t, actual)
+	assert.Equal(t, "1.1.1.1", actual.IPAddress, "ipaddress")
+	assert.Equal(t, false, actual.IsCached, "is-cached")
+
+}
+
 func TestClientLookupInvalid(t *testing.T) {
 
 	s := testServer(t)

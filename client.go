@@ -70,8 +70,8 @@ func (client *Client) Lookup(ipaddress string) (*IPLocation, error) {
 		return nil, errors.New(errResponse.Error)
 	}
 
-	var location *IPLocation
-	if err := json.Unmarshal(rawData, &location); err != nil {
+	location :=&IPLocation{}
+	if err := json.Unmarshal(rawData, location); err != nil {
 		return nil, err
 	}
 
