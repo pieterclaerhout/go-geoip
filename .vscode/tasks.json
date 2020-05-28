@@ -74,15 +74,6 @@
             ]
         },
         {
-            "label": "geoip: build docker image",
-            "command": "make build-docker-image",
-            "type": "shell",
-            "group": "build",
-            "problemMatcher": [
-                "$go"
-            ]
-        },
-        {
             "label": "geoip: publish docker image",
             "command": "make publish-docker-image",
             "type": "shell",

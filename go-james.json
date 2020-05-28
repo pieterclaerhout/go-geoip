@@ -32,6 +32,7 @@
     "docker-image": {
         "name": "geoip-server",
         "repository": "pieterclaerhout/geoip-server",
-        "tag": "version"
+        "tag": "version",
+        "prune_images_after_build": true
     }
 }
