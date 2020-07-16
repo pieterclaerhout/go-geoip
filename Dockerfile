@@ -1,5 +1,5 @@
 ## STAGE 1 - MOD DOWNLOAD
-FROM golang:1.14.3-alpine AS mod-download
+FROM golang:1.14.5-alpine AS mod-download
 
 RUN mkdir -p /app
 
@@ -20,7 +20,7 @@ RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -v -trimpath -a --ldflags '-e
 
 
 # STAGE 4 - FINAL
-FROM alpine:3.11 
+FROM alpine:3.12 
 
 RUN apk --no-cache add ca-certificates tzdata
 
