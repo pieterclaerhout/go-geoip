@@ -11,7 +11,7 @@ import (
 type Database struct {
 	path             string
 	lookupCache      map[string]*IPLocation
-	lookupCacheMutex sync.Mutex
+	lookupCacheMutex sync.RWMutex
 }
 
 // NewDatabase returns a new Database instance with the given database path
@@ -32,12 +32,14 @@ func (database *Database) ClearCache() {
 // Lookup returns the full country information for a specific IP address
 func (database *Database) Lookup(ipaddress string) (*IPLocation, error) {
 
-	if location, cached := database.lookupCache[ipaddress]; cached {
-		location.IsCached = true
+	location, err := database.lookupFromCache(ipaddress)
+	if err != nil {
+		return nil, err
+	}
+	if location != nil {
 		return location, nil
 	}
 
-	var location *IPLocation
 	var record interface{}
 
 	db, err := maxminddb.Open(database.path)
@@ -72,6 +74,20 @@ func (database *Database) Lookup(ipaddress string) (*IPLocation, error) {
 	database.lookupCache[ipaddress] = location
 
 	return location, nil
+
+}
+
+func (database *Database) lookupFromCache(ipaddress string) (*IPLocation, error) {
+
+	database.lookupCacheMutex.RLock()
+	defer database.lookupCacheMutex.RUnlock()
+
+	if location, cached := database.lookupCache[ipaddress]; cached {
+		location.IsCached = true
+		return location, nil
+	}
+
+	return nil, nil
 
 }
 

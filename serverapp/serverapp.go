@@ -32,7 +32,7 @@ func New() webserver.App {
 
 	updaterJob := dbUpdaterJob{
 		db:         db,
-		downloader: geoip.NewDatabaseDownloader(licenseKey, dbPath, 10*time.Second),
+		downloader: geoip.NewDatabaseDownloader(licenseKey, dbPath, 30*time.Second),
 		interval:   interval,
 	}
 

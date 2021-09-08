@@ -1,8 +1,10 @@
 /geoip-server
 /database.mmdb
 /database.mmdb.md5
+/database.mmdb.sha256
 /db-downloader
 /GeoLite2-City.mmdb
 /GeoLite2-City.mmdb.md5
+/GeoLite2-City.mmdb.sha256
 /build
 /.env
