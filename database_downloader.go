@@ -146,6 +146,8 @@ func (downloader *DatabaseDownloader) Download() error {
 			}
 		}
 
+		// TODO: should first go to a temp file and then replace the original
+		// file. Downloading takes time and causes invalid lookups.
 		outFile, err := os.Create(downloader.TargetFilePath)
 		if err != nil {
 			return err

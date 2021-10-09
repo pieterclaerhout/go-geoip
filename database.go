@@ -32,6 +32,10 @@ func (database *Database) ClearCache() {
 // Lookup returns the full country information for a specific IP address
 func (database *Database) Lookup(ipaddress string) (*IPLocation, error) {
 
+	if ipaddress == "" {
+		return nil, nil
+	}
+
 	location, err := database.lookupFromCache(ipaddress)
 	if err != nil {
 		return nil, err
